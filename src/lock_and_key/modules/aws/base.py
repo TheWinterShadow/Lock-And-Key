@@ -3,21 +3,22 @@
 import json
 from abc import ABC
 from dataclasses import dataclass, field
-from boto3 import Session, client, resource
-from typing import Dict
-from pydantic import BaseModel, validator
+from typing import Any, Dict
+
+from boto3 import Session  # type: ignore
+from pydantic import BaseModel  # type: ignore
 
 
 @dataclass
 class AWS(ABC, BaseModel):
     """Base AWS class with session management."""
-    
+
     creds: Dict[str, str] = field(init=False)
     session: Session = field(init=False)
-    
+
     class Config:
         arbitrary_types_allowed = True
-    
+
     def __post_init__(self):
         self.creds = self._get_creds()
         self.session = self._create_session()
@@ -27,15 +28,15 @@ class AWS(ABC, BaseModel):
         return self.session.client("sts").get_caller_identity()["Account"]
 
     def _get_creds(self) -> Dict[str, str]:
-        with open('key.json', 'r') as f:
+        with open("key.json", "r") as f:
             creds = json.load(f)
         return creds
 
     def _create_session(self) -> Session:
-        return Session(self.creds['id'], self.creds['key'])
+        return Session(self.creds["id"], self.creds["key"])
 
-    def create_client(self, service_name: str) -> client:
+    def create_client(self, service_name: str) -> Any:
         return self.session.client(service_name)
 
-    def create_resource(self, resource_name: str) -> resource:
+    def create_resource(self, resource_name: str) -> Any:
         return self.session.resource(resource_name)
