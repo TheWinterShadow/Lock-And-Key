@@ -7,6 +7,7 @@
     "ghcr.io/devcontainers-extra/features/black:2": {},
     "ghcr.io/devcontainers-extra/features/mypy:2": {},
     "ghcr.io/devcontainers-community/features/bazel:1": {},
-    "ghcr.io/devcontainers-community/npm-features/prettier:1": {}
+    "ghcr.io/devcontainers-community/npm-features/prettier:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   }
 }
