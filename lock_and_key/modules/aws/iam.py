@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 from typing import List
 
-from mypy_boto3_iam import IAMClient  # type: ignore
+from mypy_boto3_iam import IAMClient
 
 from lock_and_key.modules.aws.base import AWS
 from lock_and_key.modules.aws.object_classes.iam import IAMRole, IAMUser

@@ -1,0 +1,3 @@
+common --enable_bzlmod
+build --symlink_prefix=/
+test --test_output=errors --enable_runfiles
