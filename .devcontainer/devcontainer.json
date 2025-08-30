@@ -10,5 +10,5 @@
     "ghcr.io/devcontainers-community/npm-features/prettier:1": {},
     "ghcr.io/devcontainers-extra/features/coverage-py:2": {}
   },
-  "postCreateCommand": "NONINTERACTIVE=1 /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" && echo 'eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\"' >> /home/vscode/.bashrc && echo \"alias bazel='bazelisk'\" >> /home/vscode/.bashrc && echo \"alias c='clear'\" >> /home/vscode/.bashrc && echo \"alias bb='bazel build'\" >> /home/vscode/.bashrc && brew install bazelisk isort black mypy"
+  "postCreateCommand": "NONINTERACTIVE=1 /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" && echo 'eval \"$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\"' >> /home/vscode/.bashrc && echo \"alias bazel='bazelisk'\" >> /home/vscode/.bashrc && echo \"alias c='clear'\" >> /home/vscode/.bashrc && echo \"alias bb='bazel build'\" >> /home/vscode/.bashrc && /home/linuxbrew/.linuxbrew/bin/brew install bazelisk isort black mypy"
 }
