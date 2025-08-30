@@ -1,13 +1,14 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "lockAndKey",
+  "image": "mcr.microsoft.com/devcontainers/python:3",
   "features": {
     "ghcr.io/devcontainers/features/aws-cli:1": {},
-    "ghcr.io/devcontainers/features/python:1": {},
     "ghcr.io/devcontainers-extra/features/isort:2": {},
     "ghcr.io/devcontainers-extra/features/black:2": {},
     "ghcr.io/devcontainers-extra/features/mypy:2": {},
     "ghcr.io/devcontainers-community/features/bazel:1": {},
     "ghcr.io/devcontainers-community/npm-features/prettier:1": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-  }
+    "ghcr.io/devcontainers-extra/features/coverage-py:2": {}
+  },
+  "postCreateCommand": "NONINTERACTIVE=1 /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\" && brew install bazelisk isort black mypy"
 }
