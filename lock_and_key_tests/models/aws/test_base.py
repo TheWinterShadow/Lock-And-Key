@@ -1,6 +1,8 @@
 import json
+from unittest.mock import MagicMock, mock_open, patch
+
 import pytest
-from unittest.mock import patch, mock_open, MagicMock
+
 from lock_and_key.modules.aws.base import AWS
 
 # Dummy credentials for testing

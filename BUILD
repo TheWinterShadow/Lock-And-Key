@@ -1,39 +1,32 @@
 package(default_visibility = ["//visibility:public"])
 
-py_binary(
+
+genrule(
     name = "isort_check",
-    srcs = [],
-    args = [
-        "--check",
-        "--diff",
-        "lock_and_key/",
+    srcs = [
+        "//lock_and_key:all_py_files",
     ],
-    main = "@lock_and_key_lib//:isort",
+    outs = ["isort_check.out"],
+    cmd = "isort --check --diff lock_and_key/ && touch $@",
+    tools = ["//lock_and_key:lock_and_key_lib"],
 )
 
-# py_binary(
-#     name = "black_check",
-#     srcs = [],
-#     main = "@lock_and_key_lib//:black",
-#     args = ["--check", "lock_and_key/"],
-# )
+genrule(
+    name = "black_check",
+    srcs = [
+        "//lock_and_key:all_py_files",
+    ],
+    outs = ["black_check.out"],
+    cmd = "black --check lock_and_key/ && touch $@",
+    tools = ["//lock_and_key:lock_and_key_lib"],
+)
 
-# py_binary(
-#     name = "mypy_check",
-#     srcs = [],
-#     main = "@lock_and_key_lib//:mypy",
-#     args = ["lock_and_key/"],
-# )
-
-# genrule(
-#     name = "build",
-#     srcs = [],
-#     outs = ["build.stamp"],
-#     cmd = "true",
-#     tools = [
-#         ":isort_check",
-#         ":black_check",
-#         ":mypy_check",
-#         "//lock_and_key:cli",
-#     ],
-# )
+genrule(
+    name = "mypy_check",
+    srcs = [
+        "//lock_and_key:all_py_files",
+    ],
+    outs = ["mypy_check.out"],
+    cmd = "mypy lock_and_key/ && touch $@",
+    tools = ["//lock_and_key:lock_and_key_lib"],
+)
