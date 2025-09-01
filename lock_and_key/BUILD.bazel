@@ -3,16 +3,13 @@ load("@pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_test")
 
 py_test(
-    name = "__init__",
-    srcs = glob(
-        [
-            "test_*.py",
-            "*_test.py",
-            "__init__.py",
-        ],
-        allow_empty = True,
-    ),
-    deps = ["//lock_and_key"],
+    name = "test_base",
+    srcs = ["test_runner.py", "tests/models/aws/test_base.py"] + glob(["tests/**/__init__.py"]),
+    main = "test_runner.py",
+    deps = [
+        ":lock_and_key",
+        requirement("pytest"),
+    ],
 )
 
 
@@ -25,7 +22,7 @@ filegroup(
 
 py_library(
     name = "lock_and_key",
-    srcs = glob(["**/*.py"]),
+    srcs = glob(["**/*.py"], exclude=["tests/**"]),
     visibility = ["//visibility:public"],
     deps = [
         requirement("boto3"),

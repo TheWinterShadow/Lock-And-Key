@@ -2,30 +2,36 @@
 # This is the base class for all AWS modules
 import json
 from abc import ABC
-from dataclasses import dataclass, field
 from typing import Any, Dict
 
 from boto3 import Session  # type: ignore
-from pydantic import BaseModel  # type: ignore
+from pydantic import BaseModel, ConfigDict, PrivateAttr  # type: ignore
 
 
-@dataclass
 class AWS(ABC, BaseModel):
     """Base AWS class with session management."""
 
-    creds: Dict[str, str] = field(init=False)
-    session: Session = field(init=False)
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    class Config:
-        arbitrary_types_allowed = True
+    _creds: Dict[str, str] = PrivateAttr()
+    _session: Session = PrivateAttr()
 
-    def __post_init__(self):
-        self.creds = self._get_creds()
-        self.session = self._create_session()
+    def __init__(self, **data):
+        super().__init__(**data)
+        self._creds = self._get_creds()
+        self._session = self._create_session()
+
+    @property
+    def creds(self) -> Dict[str, str]:
+        return self._creds
+
+    @property
+    def session(self) -> Session:
+        return self._session
 
     @property
     def account_id(self) -> str:
-        return self.session.client("sts").get_caller_identity()["Account"]
+        return self._session.client("sts").get_caller_identity()["Account"]
 
     def _get_creds(self) -> Dict[str, str]:
         with open("key.json", "r") as f:
@@ -33,10 +39,13 @@ class AWS(ABC, BaseModel):
         return creds
 
     def _create_session(self) -> Session:
-        return Session(self.creds["id"], self.creds["key"])
+        return Session(
+            aws_access_key_id=self._creds["id"],
+            aws_secret_access_key=self._creds["key"],
+        )
 
     def create_client(self, service_name: str) -> Any:
-        return self.session.client(service_name)
+        return self._session.client(service_name)
 
     def create_resource(self, resource_name: str) -> Any:
-        return self.session.resource(resource_name)
+        return self._session.resource(resource_name)
