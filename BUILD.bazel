@@ -1,0 +1,24 @@
+package(default_visibility = ["//visibility:public"])
+load("//tools/linting:linters.bzl", "black_lint", "isort_lint", "flake8_lint", "mypy_lint")
+
+black_lint()
+isort_lint()
+flake8_lint()
+mypy_lint()
+
+
+load("@rules_uv//uv:pip.bzl", "pip_compile")
+
+pip_compile(
+    name = "generate_requirements_txt",
+    requirements_in = "//:pyproject.toml", # default
+    requirements_txt = "//:requirements.txt", # default
+)
+
+load("@rules_uv//uv:venv.bzl", "create_venv")
+
+create_venv(
+    name = "create_venv",
+    destination_folder = ".venv",
+    requirements_txt = "//:requirements.txt", # default
+)

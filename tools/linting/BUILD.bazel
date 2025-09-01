@@ -1,0 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
+load("//tools/linting:linters.bzl", "black_lint", "isort_lint", "flake8_lint", "mypy_lint")
+
+black_lint()
+isort_lint()
+flake8_lint()
+mypy_lint()
+
+py_binary(
+    name = "runner",
+    srcs = ["runner.py"],
+    main = "runner.py",
+    deps = [],
+)

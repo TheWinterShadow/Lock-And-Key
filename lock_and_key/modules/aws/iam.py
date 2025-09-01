@@ -17,12 +17,12 @@ class IAM(AWS):
 
     def __post_init__(self):
         super().__post_init__()
-        self.iam_client = self.create_client(service_name="iam")
+        self.iam_client: IAMClient = self.create_client(service_name="iam")
 
     def list_roles(self) -> List[IAMRole]:
         roles = self.iam_client.list_roles()
-        return [IAMRole(**x) for x in roles["Roles"]]
+        return [IAMRole.parse_obj(x) for x in roles["Roles"]]
 
     def list_users(self) -> List[IAMUser]:
         users = self.iam_client.list_users()
-        return [IAMUser(**x) for x in users["Users"]]
+        return [IAMUser.parse_obj(x) for x in users["Users"]]

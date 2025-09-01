@@ -1,0 +1,90 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lock-and-key"
+dynamic = ["version"]
+description = ""
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "WinterShadow", email = "wolf@cyberwolf.dev" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "boto3",
+  "pydantic",
+  "black",
+  "flake8",
+  "isort",
+  "mypy",
+  "mypy-boto3-iam",
+  "pytest",
+]
+
+[project.urls]
+Documentation = "https://github.com/WinterShadow/lock-and-key#readme"
+Issues = "https://github.com/WinterShadow/lock-and-key/issues"
+Source = "https://github.com/WinterShadow/lock-and-key"
+
+[tool.hatch.version]
+path = "lock_and_key/__init__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:lock_and_key tests}"
+
+[tool.coverage.run]
+source_pkgs = ["lock_and_key", "tests"]
+branch = true
+parallel = true
+omit = [
+  "lock_and_key/__about__.py",
+]
+
+[tool.coverage.paths]
+lock_and_key = ["lock_and_key", "*/lock-and-key/lock_and_key"]
+tests = ["tests", "*/lock-and-key/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

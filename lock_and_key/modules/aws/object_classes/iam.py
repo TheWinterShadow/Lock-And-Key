@@ -15,6 +15,7 @@ class IAMObjectBase(ABC, BaseModel):
 
     class Config:
         allow_population_by_field_name = True
+        extra = "ignore"
 
     @abstractmethod
     def get_identifier(self) -> str:

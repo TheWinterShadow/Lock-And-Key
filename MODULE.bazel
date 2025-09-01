@@ -1,4 +1,5 @@
 bazel_dep(name = "rules_python", version = "1.5.4")
+bazel_dep(name = "rules_uv", version = "0.88.0")
 
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(
@@ -7,9 +8,8 @@ python.toolchain(
 
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse(
-    hub_name = "lock_and_key_lib",
+    hub_name = "pip",
     python_version = "3.11",
-    requirements_lock = "//:requirements_lock.txt",
-    visibility = ["//visibility:public"],
+    requirements_lock = "//:requirements.txt",
 )
-use_repo(pip, "lock_and_key_lib")
+use_repo(pip, "pip")

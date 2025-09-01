@@ -1,0 +1,42 @@
+load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+load("@pip//:requirements.bzl", "requirement")
+load("@rules_python//python:defs.bzl", "py_test")
+
+py_test(
+    name = "__init__",
+    srcs = glob(
+        [
+            "test_*.py",
+            "*_test.py",
+            "__init__.py",
+        ],
+        allow_empty = True,
+    ),
+    deps = ["//lock_and_key"],
+)
+
+
+
+filegroup(
+    name = "all_py_files",
+    srcs = glob(["**/*.py"]),
+    visibility = ["//visibility:public"],
+)
+
+py_library(
+    name = "lock_and_key",
+    srcs = glob(["**/*.py"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        requirement("boto3"),
+        requirement("pydantic"),
+        requirement("mypy-boto3-iam"),
+    ],
+)
+
+py_binary(
+    name = "cli",
+    srcs = glob(["*.py"]),
+    main = "cli.py",
+    deps = [":lock_and_key"],
+)
