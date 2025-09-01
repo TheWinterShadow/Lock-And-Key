@@ -4,7 +4,7 @@ load("@rules_python//python:defs.bzl", "py_test")
 
 py_test(
     name = "test_base",
-    srcs = ["test_runner.py", "tests/models/aws/test_base.py"] + glob(["tests/**/__init__.py"]),
+    srcs = ["test_runner.py", "tests/models/aws/clients/test_base.py"] + glob(["tests/**/__init__.py"]),
     main = "test_runner.py",
     deps = [
         ":lock_and_key",
