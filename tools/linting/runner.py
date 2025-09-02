@@ -3,7 +3,6 @@
 
 import subprocess
 import sys
-import os
 
 if __name__ == "__main__":
     # Get the tool name and arguments

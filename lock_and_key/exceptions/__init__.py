@@ -1,5 +1,5 @@
 """Exception classes for Lock & Key."""
 
-from .base import CredentialsError, LockAndKeyError, ProviderError
+from lock_and_key.exceptions.base import CredentialsError, LockAndKeyError, ProviderError
 
 __all__ = ["LockAndKeyError", "ProviderError", "CredentialsError"]

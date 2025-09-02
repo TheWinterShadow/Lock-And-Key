@@ -2,8 +2,8 @@
 
 import click
 
-from ..models.credentials import AWSCreds
-from .base import CloudProviderBase
+from lock_and_key.models.credentials import AWSCreds
+from lock_and_key.providers.base import CloudProviderBase
 
 
 class AWSProvider(CloudProviderBase):

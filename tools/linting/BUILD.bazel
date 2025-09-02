@@ -2,7 +2,6 @@ package(default_visibility = ["//visibility:public"])
 
 load("@rules_python//python:defs.bzl", "py_binary")
 load("@pip//:requirements.bzl", "requirement")
-
 py_binary(
     name = "runner",
     srcs = ["runner.py"],
@@ -16,5 +15,18 @@ py_binary(
         requirement("pydantic"),
         requirement("click"),
         requirement("rich"),
+    ],
+)
+
+# Format script
+py_binary(
+    name = "format",
+    srcs = ["format.py"],
+    main = "format.py",
+    deps = [
+        ":runner",
+    ],
+    data = [
+        "//lock_and_key:all_py_files",
     ],
 )

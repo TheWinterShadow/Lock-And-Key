@@ -3,10 +3,10 @@
 # SPDX-License-Identifier: MIT
 """Lock & Key - Cloud Security Scanner."""
 
-from .__about__ import __version__
-from .core import LockAndKeyScanner
-from .models import ScanResult, ScanSummary
-from .providers import PROVIDER_CLASSES
+from lock_and_key.__about__ import __version__
+from lock_and_key.core import LockAndKeyScanner
+from lock_and_key.models import ScanResult, ScanSummary
+from lock_and_key.providers import PROVIDER_CLASSES
 
 __all__ = [
     "LockAndKeyScanner",

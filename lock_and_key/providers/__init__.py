@@ -1,11 +1,17 @@
 """Cloud provider implementations."""
 
-from .aws import AWSProvider
-from .azure import AzureProvider
-from .base import CloudProviderBase
-from .gcp import GCPProvider
+from typing import Dict, Type
 
-PROVIDER_CLASSES = {"AWS": AWSProvider, "GCP": GCPProvider, "Azure": AzureProvider}
+from lock_and_key.providers.aws import AWSProvider
+from lock_and_key.providers.azure import AzureProvider
+from lock_and_key.providers.base import CloudProviderBase
+from lock_and_key.providers.gcp import GCPProvider
+
+PROVIDER_CLASSES: Dict[str, Type[CloudProviderBase]] = {
+    "AWS": AWSProvider,
+    "GCP": GCPProvider,
+    "Azure": AzureProvider,
+}
 
 __all__ = [
     "CloudProviderBase",

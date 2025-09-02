@@ -5,9 +5,9 @@ from typing import Optional
 import click
 from rich.console import Console
 
-from ..models import AWSCreds, AzureCreds, GCPCreds, ScanSummary
-from ..providers import PROVIDER_CLASSES
-from .ui import print_banner
+from lock_and_key.core.ui import print_banner
+from lock_and_key.models import AWSCreds, AzureCreds, GCPCreds, ScanSummary
+from lock_and_key.providers import PROVIDER_CLASSES
 
 
 class LockAndKeyScanner:
@@ -22,9 +22,7 @@ class LockAndKeyScanner:
         """Prompt user to select a cloud provider."""
         provider_names = list(self.providers.keys())
         for idx, name in enumerate(provider_names, 1):
-            self.console.print(
-                f"[cyan]{idx}.[/cyan] {name} ({self.providers[name].description})"
-            )
+            self.console.print(f"[cyan]{idx}.[/cyan] {name} ({self.providers[name].description})")
 
         choice = click.prompt("Select a provider by number", type=int)
         if 1 <= choice <= len(provider_names):
@@ -47,16 +45,12 @@ class LockAndKeyScanner:
             result = provider.run_analysis(creds)
             self.summary.add_result(result)
 
-            again = click.confirm(
-                "Would you like to scan another cloud provider?", default=False
-            )
+            again = click.confirm("Would you like to scan another cloud provider?", default=False)
             if not again:
                 break
 
         self.summary.render()
-        self.console.print(
-            "[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]"
-        )
+        self.console.print("[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]")
 
     def run_single_provider(self, provider_name: str, **kwargs) -> None:
         """Run scan for a single provider with provided credentials."""
@@ -76,9 +70,7 @@ class LockAndKeyScanner:
         result = provider.run_analysis(creds)
         self.summary.add_result(result)
         self.summary.render()
-        self.console.print(
-            "[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]"
-        )
+        self.console.print("[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]")
 
     def _build_credentials(self, provider_name: str, **kwargs):
         """Build credentials object from kwargs."""
@@ -90,9 +82,7 @@ class LockAndKeyScanner:
                 region=kwargs.get("region"),
             )
         elif provider_name == "GCP":
-            return GCPCreds(
-                creds_path=kwargs.get("creds_path"), creds_json=kwargs.get("creds_json")
-            )
+            return GCPCreds(creds_path=kwargs.get("creds_path"), creds_json=kwargs.get("creds_json"))
         elif provider_name == "Azure":
             return AzureCreds(
                 creds_path=kwargs.get("creds_path"),

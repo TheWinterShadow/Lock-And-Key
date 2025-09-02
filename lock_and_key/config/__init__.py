@@ -1,5 +1,5 @@
 """Configuration management for Lock & Key."""
 
-from .settings import CLOUD_PROVIDERS
+from lock_and_key.config.settings import CLOUD_PROVIDERS
 
 __all__ = ["CLOUD_PROVIDERS"]
