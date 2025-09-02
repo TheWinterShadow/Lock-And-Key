@@ -2,7 +2,7 @@
 
 import click
 
-from .core import LockAndKeyScanner
+from lock_and_key.core import LockAndKeyScanner
 
 
 @click.group()
