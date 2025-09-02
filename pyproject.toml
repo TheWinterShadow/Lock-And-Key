@@ -25,14 +25,14 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "black",
-  "flake8",
-  "isort",
-  "mypy",
-  "mypy-boto3-iam",
-  "pytest",
+  "boto3",
+  "pydantic",
   "click",
-  "rich"
+  "rich",
+  "black",
+  "flake8", 
+  "isort",
+  "mypy"
 ]
 
 [project.scripts]

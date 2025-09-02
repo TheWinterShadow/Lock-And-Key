@@ -1,22 +1,112 @@
 load("@rules_python//python:defs.bzl", "py_test")
 load("@pip//:requirements.bzl", "requirement")
 
-py_test(
-    name = "test_scanner",
-    srcs = ["test_scanner.py"],
-    main = "test_scanner.py",
+py_library(
+    name = "lock_and_key_tests",
+    srcs = glob(["**/*.py"]),
+    visibility = ["//visibility:public"],
     deps = [
         "//lock_and_key:lock_and_key",
-        requirement("pytest"),
+        requirement("click"),
+        requirement("rich"),
+        requirement("pydantic"),
     ],
 )
 
 py_test(
-    name = "test_base_aws",
-    srcs = ["models/aws/clients/test_base.py"] + glob(["models/**/__init__.py"]),
-    main = "models/aws/clients/test_base.py",
-    deps = [
-        "//lock_and_key:lock_and_key",
-        requirement("pytest"),
-    ],
+    name = "test_about",
+    srcs = ["test___about__.py"],
+    main = "test___about__.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_init",
+    srcs = ["test___init__.py"],
+    main = "test___init__.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_cli",
+    srcs = ["test_cli.py"],
+    main = "test_cli.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_scanner_legacy",
+    srcs = ["test_scanner.py"],
+    main = "test_scanner.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_config_settings",
+    srcs = ["config/test_settings.py", "config/__init__.py"],
+    main = "config/test_settings.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_core_scanner",
+    srcs = ["core/test_scanner.py", "core/__init__.py"],
+    main = "core/test_scanner.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_core_ui",
+    srcs = ["core/test_ui.py", "core/__init__.py"],
+    main = "core/test_ui.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_exceptions_base",
+    srcs = ["exceptions/test_base.py", "exceptions/__init__.py"],
+    main = "exceptions/test_base.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_models_credentials",
+    srcs = ["models/test_credentials.py", "models/__init__.py"],
+    main = "models/test_credentials.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_models_scan_results",
+    srcs = ["models/test_scan_results.py", "models/__init__.py"],
+    main = "models/test_scan_results.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_providers_base",
+    srcs = ["providers/test_base.py", "providers/__init__.py"],
+    main = "providers/test_base.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_providers_aws",
+    srcs = ["providers/test_aws.py", "providers/__init__.py"],
+    main = "providers/test_aws.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_providers_gcp",
+    srcs = ["providers/test_gcp.py", "providers/__init__.py"],
+    main = "providers/test_gcp.py",
+    deps = [":lock_and_key_tests"],
+)
+
+py_test(
+    name = "test_providers_azure",
+    srcs = ["providers/test_azure.py", "providers/__init__.py"],
+    main = "providers/test_azure.py",
+    deps = [":lock_and_key_tests"],
 )
