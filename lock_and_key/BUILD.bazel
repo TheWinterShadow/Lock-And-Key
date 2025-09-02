@@ -2,15 +2,7 @@ load("@rules_python//python:defs.bzl", "py_binary", "py_library")
 load("@pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_test")
 
-py_test(
-    name = "test_base",
-    srcs = ["test_runner.py", "tests/models/aws/clients/test_base.py"] + glob(["tests/**/__init__.py"]),
-    main = "test_runner.py",
-    deps = [
-        ":lock_and_key",
-        requirement("pytest"),
-    ],
-)
+# Tests are now in separate directory
 
 
 
@@ -22,18 +14,24 @@ filegroup(
 
 py_library(
     name = "lock_and_key",
-    srcs = glob(["**/*.py"], exclude=["tests/**"]),
+    srcs = glob(["**/*.py"]),
     visibility = ["//visibility:public"],
     deps = [
         requirement("boto3"),
         requirement("pydantic"),
         requirement("mypy-boto3-iam"),
+        requirement("click"),
+        requirement("rich")
     ],
 )
 
 py_binary(
     name = "cli",
-    srcs = glob(["*.py"]),
+    srcs = ["cli.py"],
     main = "cli.py",
-    deps = [":lock_and_key"],
+    deps = [
+        ":lock_and_key",
+        requirement("click"),
+        requirement("rich")
+    ],
 )

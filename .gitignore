@@ -3,3 +3,4 @@
 dist/
 bazel-*
 auth.bazelrc
+*/__pycache__/*

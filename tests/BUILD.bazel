@@ -1,0 +1,22 @@
+load("@rules_python//python:defs.bzl", "py_test")
+load("@pip//:requirements.bzl", "requirement")
+
+py_test(
+    name = "test_scanner",
+    srcs = ["test_scanner.py"],
+    main = "test_scanner.py",
+    deps = [
+        "//lock_and_key:lock_and_key",
+        requirement("pytest"),
+    ],
+)
+
+py_test(
+    name = "test_base_aws",
+    srcs = ["models/aws/clients/test_base.py"] + glob(["models/**/__init__.py"]),
+    main = "models/aws/clients/test_base.py",
+    deps = [
+        "//lock_and_key:lock_and_key",
+        requirement("pytest"),
+    ],
+)
