@@ -3,8 +3,7 @@
 import unittest
 from abc import ABC
 
-from lock_and_key.models.scan_results import ScanResult
-from lock_and_key.providers.base import CloudProviderBase
+from lock_and_key.types import ScanResult, CloudProviderBase
 
 
 class TestCloudProviderBase(unittest.TestCase):

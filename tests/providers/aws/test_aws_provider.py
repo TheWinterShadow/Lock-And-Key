@@ -3,9 +3,8 @@
 import unittest
 from unittest.mock import patch
 
-from lock_and_key.models.credentials import AWSCreds
+from lock_and_key.types import AWSCreds, CloudProviderBase
 from lock_and_key.providers.aws import AWSProvider
-from lock_and_key.providers.base import CloudProviderBase
 
 
 class TestAWSProvider(unittest.TestCase):
@@ -82,18 +81,17 @@ class TestAWSProvider(unittest.TestCase):
         secret_call = mock_prompt.call_args_list[2]
         self.assertTrue(secret_call[1]['hide_input'])
 
-    @patch('lock_and_key.providers.aws.resources.s3.S3Service.from_creds')
+    @patch('lock_and_key.providers.aws.aws_policy_collector.AWSPolicyCollector.scan_all_policies')
     @patch('lock_and_key.providers.aws.resources.iam.IAMService.from_creds')
-    def test_run_analysis_with_mocked_services(self, mock_iam_from_creds, mock_s3_from_creds):
+    def test_run_analysis_with_mocked_services(self, mock_iam_from_creds, mock_collector_scan):
         """Test run_analysis with mocked AWS services."""
         # Create mock service instances
         mock_iam_instance = mock_iam_from_creds.return_value
-        mock_s3_instance = mock_s3_from_creds.return_value
         
         # Mock responses
         mock_iam_instance.get_account_id.return_value = "123456789012"
         mock_iam_instance.scan_policies_detailed.return_value = []
-        mock_s3_instance.scan_policies_detailed.return_value = []
+        mock_collector_scan.return_value = []
         
         creds = AWSCreds(profile="test-profile")
         result = self.provider.run_analysis(creds, output_dir="./test_reports")

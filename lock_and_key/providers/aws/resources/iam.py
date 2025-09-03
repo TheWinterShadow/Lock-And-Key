@@ -1,13 +1,16 @@
 """AWS IAM policy scanner."""
 
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any, Dict, List
 
 from botocore.exceptions import ClientError
-from mypy_boto3_iam import IAMClient
-from mypy_boto3_iam.type_defs import PolicyTypeDef
 
-from lock_and_key.models.scan_results import Finding
+from lock_and_key.types import Finding
 from lock_and_key.providers.aws.resources.base import AWSServiceBase
+from lock_and_key.providers.aws.resources.iam_policy_analyzer import IAMPolicyAnalyzer
+
+if TYPE_CHECKING:
+    from mypy_boto3_iam import IAMClient
+    from mypy_boto3_iam.type_defs import PolicyTypeDef
 
 
 class IAMService(AWSServiceBase):
@@ -16,7 +19,7 @@ class IAMService(AWSServiceBase):
     def scan_policies(self, account_id: str) -> List[str]:
         """Scan IAM policies for security issues."""
         issues: List[str] = []
-        iam: IAMClient = self.session.client("iam")
+        iam: "IAMClient" = self.session.client("iam")
 
         # Scan customer managed policies
         try:
@@ -33,14 +36,36 @@ class IAMService(AWSServiceBase):
     def scan_policies_detailed(self, account_id: str) -> List[Finding]:
         """Scan IAM policies and return detailed findings."""
         findings: List[Finding] = []
-        iam: IAMClient = self.session.client("iam")
+        iam: "IAMClient" = self.session.client("iam")
+        analyzer = IAMPolicyAnalyzer(account_id)
 
         try:
             paginator = iam.get_paginator("list_policies")
             for page in paginator.paginate(Scope="Local"):
                 for policy in page["Policies"]:
-                    policy_findings = self._analyze_policy_detailed(iam, policy, account_id)
-                    findings.extend(policy_findings)
+                    try:
+                        response = iam.get_policy_version(
+                            PolicyArn=policy.get("Arn"), 
+                            VersionId=policy.get("DefaultVersionId")
+                        )
+                        policy_doc = response["PolicyVersion"]["Document"]
+                        
+                        findings.extend(analyzer.analyze_policy(
+                            policy_doc,
+                            policy.get("PolicyName", "MISSING"),
+                            policy.get("Arn", "MISSING")
+                        ))
+                    except ClientError:
+                        findings.append(
+                            Finding(
+                                resource_name=policy.get("PolicyName", "MISSING"),
+                                resource_id=policy.get("Arn", "MISSING"),
+                                issue_type="Access Error",
+                                severity="Low",
+                                description="Failed to retrieve policy document",
+                                recommendation="Ensure IAM permissions allow policy document access",
+                            )
+                        )
         except ClientError:
             findings.append(
                 Finding(

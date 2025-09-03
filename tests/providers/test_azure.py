@@ -3,9 +3,8 @@
 import unittest
 from unittest.mock import patch
 
-from lock_and_key.models.credentials import AzureCreds
+from lock_and_key.types import AzureCreds, CloudProviderBase
 from lock_and_key.providers.azure import AzureProvider
-from lock_and_key.providers.base import CloudProviderBase
 
 
 class TestAzureProvider(unittest.TestCase):

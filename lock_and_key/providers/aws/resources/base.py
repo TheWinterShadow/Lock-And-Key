@@ -1,9 +1,15 @@
 """Base AWS service class."""
 
-import boto3
-from mypy_boto3_sts import STSClient
+from typing import TYPE_CHECKING, Type, TypeVar
 
-from lock_and_key.models.credentials import AWSCreds
+import boto3
+
+from lock_and_key.types import AWSCreds
+
+if TYPE_CHECKING:
+    from mypy_boto3_sts import STSClient
+
+T = TypeVar('T', bound='AWSServiceBase')
 
 
 class AWSServiceBase:
@@ -13,7 +19,7 @@ class AWSServiceBase:
         self.session = session
 
     @classmethod
-    def from_creds(cls, creds: AWSCreds):
+    def from_creds(cls: Type[T], creds: AWSCreds) -> T:
         """Create service from credentials."""
         session = cls._create_session(creds)
         return cls(session)
@@ -31,5 +37,5 @@ class AWSServiceBase:
 
     def get_account_id(self) -> str:
         """Get AWS account ID."""
-        sts: STSClient = self.session.client("sts")
+        sts: "STSClient" = self.session.client("sts")
         return sts.get_caller_identity()["Account"]

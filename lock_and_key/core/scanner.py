@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from lock_and_key.core.ui import print_banner
-from lock_and_key.models import AWSCreds, AzureCreds, GCPCreds, ScanSummary
+from lock_and_key.types import AWSCreds, AzureCreds, GCPCreds, ScanSummary
 from lock_and_key.providers import PROVIDER_CLASSES
 
 

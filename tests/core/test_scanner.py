@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 from lock_and_key.core.scanner import LockAndKeyScanner
-from lock_and_key.models import AWSCreds, AzureCreds, GCPCreds, ScanResult
+from lock_and_key.types import AWSCreds, AzureCreds, GCPCreds, ScanResult
 
 
 class TestLockAndKeyScanner(unittest.TestCase):

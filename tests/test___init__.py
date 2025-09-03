@@ -33,8 +33,8 @@ class TestInit(unittest.TestCase):
         self.assertTrue(hasattr(lock_and_key, 'ScanSummary'))
         
         # Test that they're the correct classes
-        from lock_and_key.models.scan_results import ScanResult as OriginalScanResult
-        from lock_and_key.models.scan_results import ScanSummary as OriginalScanSummary
+        from lock_and_key.types import ScanResult as OriginalScanResult
+        from lock_and_key.types import ScanSummary as OriginalScanSummary
         self.assertIs(ScanResult, OriginalScanResult)
         self.assertIs(ScanSummary, OriginalScanSummary)
 

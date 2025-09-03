@@ -3,8 +3,7 @@
 import unittest
 from unittest.mock import patch
 
-from lock_and_key.models.credentials import GCPCreds
-from lock_and_key.providers.base import CloudProviderBase
+from lock_and_key.types import GCPCreds, CloudProviderBase
 from lock_and_key.providers.gcp import GCPProvider
 
 

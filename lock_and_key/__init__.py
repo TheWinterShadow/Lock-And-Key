@@ -5,7 +5,7 @@
 
 from lock_and_key.__about__ import __version__
 from lock_and_key.core import LockAndKeyScanner
-from lock_and_key.models import ScanResult, ScanSummary
+from lock_and_key.types import ScanResult, ScanSummary
 from lock_and_key.providers import PROVIDER_CLASSES
 
 __all__ = [

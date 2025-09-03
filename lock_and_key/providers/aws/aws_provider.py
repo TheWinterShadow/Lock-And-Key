@@ -2,12 +2,12 @@
 
 import click
 from botocore.exceptions import ClientError, NoCredentialsError
+from typing import List
 
-from lock_and_key.models.credentials import AWSCreds
-from lock_and_key.models.scan_results import ScanResult
+
+from lock_and_key.types import AWSCreds, ScanResult, CloudProviderBase, Finding
+from lock_and_key.providers.aws.aws_policy_collector import AWSPolicyCollector
 from lock_and_key.providers.aws.resources.iam import IAMService
-from lock_and_key.providers.aws.resources.s3 import S3Service
-from lock_and_key.providers.base import CloudProviderBase
 
 
 class AWSProvider(CloudProviderBase):
@@ -33,19 +33,18 @@ class AWSProvider(CloudProviderBase):
         return AWSCreds(access_key=access_key, secret_key=secret_key, region=region)
 
     def run_analysis(self, creds: AWSCreds, output_dir: str = "./reports") -> ScanResult:
-        """Run AWS security analysis for S3 and IAM policies."""
+        """Run AWS security analysis for all resource policies."""
         try:
             # Initialize services
             iam_service = IAMService.from_creds(creds)
-            s3_service = S3Service.from_creds(creds)
+            collector = AWSPolicyCollector(iam_service.session)
 
             account_id = iam_service.get_account_id()
 
-            # Scan both IAM and S3 policies
-            iam_findings = iam_service.scan_policies_detailed(account_id)
-            s3_findings = s3_service.scan_policies_detailed(account_id)
-
-            all_findings = iam_findings + s3_findings
+            # Scan all policies
+            all_findings: List[Finding] = []
+            all_findings.extend(iam_service.scan_policies_detailed(account_id))
+            all_findings.extend(collector.scan_all_policies(account_id))
 
             return ScanResult(
                 provider=self.name,
@@ -55,7 +54,7 @@ class AWSProvider(CloudProviderBase):
                     1 for f in all_findings if "wildcard" in f.description.lower() or "Administrative" in f.description
                 ),
                 high_risk_permissions=sum(1 for f in all_findings if f.severity == "High"),
-                summary=f"Scanned IAM and S3 policies. Found {len(all_findings)} security issues.",
+                summary=f"Scanned IAM and all resource policies. Found {len(all_findings)} security issues.",
                 report_path=f"{output_dir}/aws_report_{account_id}.json",
                 findings=all_findings,
             )

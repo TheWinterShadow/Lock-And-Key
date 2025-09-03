@@ -2,8 +2,8 @@
 
 import click
 
-from lock_and_key.models.credentials import AzureCreds
-from lock_and_key.providers.base import CloudProviderBase
+from lock_and_key.types import AzureCreds
+from lock_and_key.types import CloudProviderBase
 
 
 class AzureProvider(CloudProviderBase):

@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import Mock, patch
 import boto3
 
-from lock_and_key.models.credentials import AWSCreds
+from lock_and_key.types import AWSCreds
 from lock_and_key.providers.aws.resources.base import AWSServiceBase
 
 
