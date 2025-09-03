@@ -1,10 +1,23 @@
 """Scan result models."""
 
+import json
+import os
 from typing import List
 
 from pydantic import BaseModel
 from rich.console import Console
 from rich.table import Table
+
+
+class Finding(BaseModel):
+    """Individual security finding."""
+
+    resource_name: str
+    resource_id: str
+    issue_type: str
+    severity: str
+    description: str
+    recommendation: str
 
 
 class ScanResult(BaseModel):
@@ -17,6 +30,7 @@ class ScanResult(BaseModel):
     high_risk_permissions: int
     summary: str
     report_path: str
+    findings: List[Finding] = []
 
 
 class ScanSummary(BaseModel):
@@ -27,6 +41,17 @@ class ScanSummary(BaseModel):
     def add_result(self, result: ScanResult) -> None:
         """Add a scan result to the summary."""
         self.results.append(result)
+        self._save_result(result)
+
+    def _save_result(self, result: ScanResult) -> None:
+        """Save scan result to JSON file."""
+        if result.report_path:
+            # Create directory if it doesn't exist
+            os.makedirs(os.path.dirname(result.report_path), exist_ok=True)
+
+            # Save result as JSON
+            with open(result.report_path, "w") as f:
+                json.dump(result.model_dump(), f, indent=2)
 
     def render(self) -> None:
         """Render the scan summary as a table."""

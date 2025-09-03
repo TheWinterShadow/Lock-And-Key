@@ -12,9 +12,10 @@ def cli():
 
 
 @cli.command()
-def interactive():
+@click.option("--output-dir", type=str, default="./reports", help="Output directory for reports")
+def interactive(output_dir):
     """Run the interactive cloud scan workflow."""
-    scanner = LockAndKeyScanner()
+    scanner = LockAndKeyScanner(output_dir=output_dir)
     scanner.run_interactive()
 
 
@@ -35,9 +36,10 @@ def interactive():
 @click.option("--secret", type=str, help="Azure Client Secret")
 @click.option("--tenant-id", type=str, help="Azure Tenant ID")
 @click.option("--subscription-id", type=str, help="Azure Subscription ID")
-def scan(provider, **kwargs):
+@click.option("--output-dir", type=str, default="./reports", help="Output directory for reports")
+def scan(provider, output_dir, **kwargs):
     """Run a single provider scan with provided credentials."""
-    scanner = LockAndKeyScanner()
+    scanner = LockAndKeyScanner(output_dir=output_dir)
     scanner.run_single_provider(provider, **kwargs)
 
 

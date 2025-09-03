@@ -24,7 +24,7 @@ def print_banner() -> None:
         Panel(
             banner,
             title="Lock & Key Cloud Scanner",
-            subtitle="by Your Team",
+            subtitle="by The Winter Shadow",
             style="bold magenta",
         )
     )

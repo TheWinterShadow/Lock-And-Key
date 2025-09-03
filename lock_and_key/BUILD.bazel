@@ -20,6 +20,11 @@ py_library(
         requirement("pydantic"),
         requirement("click"),
         requirement("rich"),
+        requirement("boto3"),
+        requirement("boto3-stubs"),
+        requirement("mypy-boto3-iam"),
+        requirement("mypy-boto3-s3"),
+        requirement("mypy-boto3-sts"),
     ],
 )
 

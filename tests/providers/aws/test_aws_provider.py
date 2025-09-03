@@ -82,14 +82,27 @@ class TestAWSProvider(unittest.TestCase):
         secret_call = mock_prompt.call_args_list[2]
         self.assertTrue(secret_call[1]['hide_input'])
 
-    def test_run_analysis_inherited(self):
-        """Test that run_analysis method is inherited from base class."""
-        # This tests the inherited behavior
+    @patch('lock_and_key.providers.aws.resources.s3.S3Service.from_creds')
+    @patch('lock_and_key.providers.aws.resources.iam.IAMService.from_creds')
+    def test_run_analysis_with_mocked_services(self, mock_iam_from_creds, mock_s3_from_creds):
+        """Test run_analysis with mocked AWS services."""
+        # Create mock service instances
+        mock_iam_instance = mock_iam_from_creds.return_value
+        mock_s3_instance = mock_s3_from_creds.return_value
+        
+        # Mock responses
+        mock_iam_instance.get_account_id.return_value = "123456789012"
+        mock_iam_instance.scan_policies_detailed.return_value = []
+        mock_s3_instance.scan_policies_detailed.return_value = []
+        
         creds = AWSCreds(profile="test-profile")
-        result = self.provider.run_analysis(creds)
+        result = self.provider.run_analysis(creds, output_dir="./test_reports")
         
         self.assertEqual(result.provider, "AWS")
-        self.assertIn("aws", result.report_path.lower())
+        self.assertEqual(result.account_id, "123456789012")
+        self.assertEqual(result.issues_found, 0)
+        self.assertIn("aws_report", result.report_path)
+        self.assertEqual(len(result.findings), 0)
 
 
 if __name__ == '__main__':

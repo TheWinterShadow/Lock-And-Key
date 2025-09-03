@@ -2,7 +2,7 @@
 
 from typing import Dict, Type
 
-from lock_and_key.providers.aws import AWSProvider
+from lock_and_key.providers.aws.aws_provider import AWSProvider
 from lock_and_key.providers.azure import AzureProvider
 from lock_and_key.providers.base import CloudProviderBase
 from lock_and_key.providers.gcp import GCPProvider

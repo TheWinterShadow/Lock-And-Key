@@ -32,7 +32,11 @@ dependencies = [
   "black",
   "flake8", 
   "isort",
-  "mypy"
+  "mypy",
+  "boto3-stubs",
+  "mypy-boto3-iam",
+  "mypy-boto3-s3",
+  "mypy-boto3-sts"
 ]
 
 [project.scripts]
