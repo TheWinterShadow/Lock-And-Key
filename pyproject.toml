@@ -27,13 +27,25 @@ classifiers = [
 dependencies = [
   "boto3",
   "pydantic",
+  "click",
+  "rich",
   "black",
-  "flake8",
+  "flake8", 
   "isort",
   "mypy",
+  "boto3-stubs",
   "mypy-boto3-iam",
-  "pytest",
+  "mypy-boto3-s3",
+  "mypy-boto3-sts",
+  "mypy-boto3-lambda",
+  "mypy-boto3-dynamodb",
+  "mypy-boto3-sns",
+  "mypy-boto3-sqs",
+  "mypy-boto3-glue"
 ]
+
+[project.scripts]
+lock-and-key = "lock_and_key.cli:cli"
 
 [project.urls]
 Documentation = "https://github.com/WinterShadow/lock-and-key#readme"
@@ -41,7 +53,7 @@ Issues = "https://github.com/WinterShadow/lock-and-key/issues"
 Source = "https://github.com/WinterShadow/lock-and-key"
 
 [tool.hatch.version]
-path = "lock_and_key/__init__.py"
+path = "lock_and_key/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -88,3 +100,15 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
