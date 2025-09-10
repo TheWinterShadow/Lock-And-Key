@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "lock-and-key"
 dynamic = ["version"]
-description = ""
+description = "Comprehensive cloud security scanner for IAM and resource-based policies"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -27,7 +27,11 @@ dependencies = [
   "boto3",
   "pydantic",
   "click",
-  "rich",
+  "rich"
+]
+
+[project.optional-dependencies]
+dev = [
   "black",
   "flake8", 
   "isort",
@@ -40,7 +44,9 @@ dependencies = [
   "mypy-boto3-dynamodb",
   "mypy-boto3-sns",
   "mypy-boto3-sqs",
-  "mypy-boto3-glue"
+  "mypy-boto3-glue",
+  "pytest",
+  "coverage[toml]>=6.5"
 ]
 
 [project.scripts]
