@@ -45,7 +45,7 @@ class TestLockAndKeyScanner(unittest.TestCase):
     def test_run_interactive_single_provider(self, mock_prompt, mock_confirm, mock_banner):
         """Test interactive run with single provider."""
         mock_prompt.return_value = 1  # Select first provider
-        mock_confirm.return_value = False  # Don't scan another
+        mock_confirm.side_effect = [True, False]  # Proceed with scan, don't scan another
         
         # Mock provider behavior
         mock_provider = Mock()
@@ -57,7 +57,7 @@ class TestLockAndKeyScanner(unittest.TestCase):
             least_privilege_violations=0,
             high_risk_permissions=0,
             summary="Test summary",
-            report_path="test_path"
+            report_path="/tmp/test_report.json"
         )
         mock_provider.prompt_creds.return_value = mock_creds
         mock_provider.run_analysis.return_value = mock_result
@@ -68,11 +68,13 @@ class TestLockAndKeyScanner(unittest.TestCase):
         mock_provider_class.description = "Amazon Web Services"
         
         with patch.dict(self.scanner.providers, {'AWS': mock_provider_class}):
+            # Set output_dir to avoid the conditional prompt
+            self.scanner.output_dir = "./test_reports"
             self.scanner.run_interactive()
         
         mock_banner.assert_called_once()
         mock_provider.prompt_creds.assert_called_once()
-        mock_provider.run_analysis.assert_called_once_with(mock_creds)
+        mock_provider.run_analysis.assert_called_once_with(mock_creds, output_dir='./test_reports')
 
     def test_build_credentials_aws(self):
         """Test building AWS credentials."""
