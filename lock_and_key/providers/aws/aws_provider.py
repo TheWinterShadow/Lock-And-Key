@@ -1,13 +1,13 @@
 """AWS provider implementation."""
 
-import click
-from botocore.exceptions import ClientError, NoCredentialsError
 from typing import List
 
+import click
+from botocore.exceptions import ClientError, NoCredentialsError
 
-from lock_and_key.types import AWSCreds, ScanResult, CloudProviderBase, Finding
 from lock_and_key.providers.aws.aws_policy_collector import AWSPolicyCollector
 from lock_and_key.providers.aws.resources.iam import IAMService
+from lock_and_key.types import AWSCreds, CloudProviderBase, Finding, ScanResult
 
 
 class AWSProvider(CloudProviderBase):

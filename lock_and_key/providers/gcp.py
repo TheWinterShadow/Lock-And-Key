@@ -2,8 +2,7 @@
 
 import click
 
-from lock_and_key.types import GCPCreds
-from lock_and_key.types import CloudProviderBase
+from lock_and_key.types import CloudProviderBase, GCPCreds
 
 
 class GCPProvider(CloudProviderBase):

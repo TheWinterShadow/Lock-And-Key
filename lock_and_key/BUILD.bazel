@@ -23,8 +23,13 @@ py_library(
         requirement("boto3"),
         requirement("boto3-stubs"),
         requirement("mypy-boto3-iam"),
-        requirement("mypy-boto3-s3"),
+        requirement("mypy-boto3-lambda"),
+        requirement("mypy-boto3-dynamodb"),
         requirement("mypy-boto3-sts"),
+        requirement("mypy-boto3-sns"),
+        requirement("mypy-boto3-sqs"),
+        requirement("mypy-boto3-s3"),
+        requirement("mypy-boto3-glue"),
     ],
 )
 

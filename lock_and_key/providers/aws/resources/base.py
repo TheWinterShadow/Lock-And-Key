@@ -9,7 +9,7 @@ from lock_and_key.types import AWSCreds
 if TYPE_CHECKING:
     from mypy_boto3_sts import STSClient
 
-T = TypeVar('T', bound='AWSServiceBase')
+T = TypeVar("T", bound="AWSServiceBase")
 
 
 class AWSServiceBase:

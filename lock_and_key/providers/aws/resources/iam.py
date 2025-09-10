@@ -1,16 +1,14 @@
 """AWS IAM policy scanner."""
 
-from typing import TYPE_CHECKING, Any, Dict, List
+from typing import Any, Dict, List
 
 from botocore.exceptions import ClientError
+from mypy_boto3_iam import IAMClient
+from mypy_boto3_iam.type_defs import PolicyTypeDef
 
-from lock_and_key.types import Finding
 from lock_and_key.providers.aws.resources.base import AWSServiceBase
 from lock_and_key.providers.aws.resources.iam_policy_analyzer import IAMPolicyAnalyzer
-
-if TYPE_CHECKING:
-    from mypy_boto3_iam import IAMClient
-    from mypy_boto3_iam.type_defs import PolicyTypeDef
+from lock_and_key.types import Finding
 
 
 class IAMService(AWSServiceBase):
@@ -44,17 +42,20 @@ class IAMService(AWSServiceBase):
             for page in paginator.paginate(Scope="Local"):
                 for policy in page["Policies"]:
                     try:
-                        response = iam.get_policy_version(
-                            PolicyArn=policy.get("Arn"), 
-                            VersionId=policy.get("DefaultVersionId")
-                        )
+                        policy_arn = policy.get("Arn")
+                        version_id = policy.get("DefaultVersionId")
+                        if not policy_arn or not version_id:
+                            continue
+                        response = iam.get_policy_version(PolicyArn=policy_arn, VersionId=version_id)
                         policy_doc = response["PolicyVersion"]["Document"]
-                        
-                        findings.extend(analyzer.analyze_policy(
-                            policy_doc,
-                            policy.get("PolicyName", "MISSING"),
-                            policy.get("Arn", "MISSING")
-                        ))
+
+                        from typing import cast
+
+                        findings.extend(
+                            analyzer.analyze_policy(
+                                cast(str, policy_doc), policy.get("PolicyName", "MISSING"), policy.get("Arn", "MISSING")
+                            )
+                        )
                     except ClientError:
                         findings.append(
                             Finding(

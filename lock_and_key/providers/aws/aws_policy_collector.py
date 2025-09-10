@@ -2,11 +2,11 @@
 
 from typing import TYPE_CHECKING, Any, Callable, Dict, List
 
-from botocore.exceptions import ClientError
 from boto3 import Session
+from botocore.exceptions import ClientError
 
-from lock_and_key.types import Finding
 from lock_and_key.providers.aws.resources.iam_policy_analyzer import IAMPolicyAnalyzer
+from lock_and_key.types import Finding
 
 if TYPE_CHECKING:
     from mypy_boto3_dynamodb import DynamoDBClient
@@ -36,19 +36,19 @@ class AWSPolicyCollector:
         """Scan all AWS resource policies and return findings."""
         findings = []
         analyzer = IAMPolicyAnalyzer(account_id)
-        
+
         for service_name, collector_func in self.service_collectors.items():
             try:
                 policies = collector_func(account_id)
                 for policy_data in policies:
-                    findings.extend(analyzer.analyze_policy(
-                        policy_data["policy"],
-                        policy_data["resource_name"],
-                        policy_data["resource_id"]
-                    ))
+                    findings.extend(
+                        analyzer.analyze_policy(
+                            policy_data["policy"], policy_data["resource_name"], policy_data["resource_id"]
+                        )
+                    )
             except Exception:
                 pass
-        
+
         return findings
 
     def _collect_s3(self, account_id: str) -> List[Dict[str, Any]]:
@@ -60,11 +60,9 @@ class AWSPolicyCollector:
                 bucket_name: str = bucket["Name"]
                 try:
                     policy: str = s3.get_bucket_policy(Bucket=bucket_name)["Policy"]
-                    policies.append({
-                        "resource_name": bucket_name,
-                        "resource_id": f"arn:aws:s3:::{bucket_name}",
-                        "policy": policy
-                    })
+                    policies.append(
+                        {"resource_name": bucket_name, "resource_id": f"arn:aws:s3:::{bucket_name}", "policy": policy}
+                    )
                 except ClientError:
                     pass
         except ClientError:
@@ -81,11 +79,7 @@ class AWSPolicyCollector:
                     try:
                         table_arn: str = dynamodb.describe_table(TableName=table_name)["Table"]["TableArn"]
                         policy: str = dynamodb.get_resource_policy(ResourceArn=table_arn)["Policy"]
-                        policies.append({
-                            "resource_name": table_name,
-                            "resource_id": table_arn,
-                            "policy": policy
-                        })
+                        policies.append({"resource_name": table_name, "resource_id": table_arn, "policy": policy})
                     except ClientError:
                         pass
         except ClientError:
@@ -96,19 +90,21 @@ class AWSPolicyCollector:
         """Collect Glue resource policies."""
         policies: List[Dict[str, Any]] = []
         glue: "GlueClient" = self.session.client("glue")
-        region: str = glue._client_config.region_name
-        
+        region: str = self.session.region_name or "us-east-1"
+
         # Catalog policy
         try:
             policy: str = glue.get_resource_policy()["PolicyInJson"]
-            policies.append({
-                "resource_name": "Glue Data Catalog",
-                "resource_id": f"arn:aws:glue:{region}:{account_id}:catalog",
-                "policy": policy
-            })
+            policies.append(
+                {
+                    "resource_name": "Glue Data Catalog",
+                    "resource_id": f"arn:aws:glue:{region}:{account_id}:catalog",
+                    "policy": policy,
+                }
+            )
         except ClientError:
             pass
-        
+
         # Database policies
         try:
             for page in glue.get_paginator("get_databases").paginate():
@@ -116,12 +112,8 @@ class AWSPolicyCollector:
                     db_name: str = db["Name"]
                     db_arn: str = f"arn:aws:glue:{region}:{account_id}:database/{db_name}"
                     try:
-                        policy: str = glue.get_resource_policy(ResourceArn=db_arn)["PolicyInJson"]
-                        policies.append({
-                            "resource_name": db_name,
-                            "resource_id": db_arn,
-                            "policy": policy
-                        })
+                        db_policy: str = glue.get_resource_policy(ResourceArn=db_arn)["PolicyInJson"]
+                        policies.append({"resource_name": db_name, "resource_id": db_arn, "policy": db_policy})
                     except ClientError:
                         pass
         except ClientError:
@@ -137,11 +129,13 @@ class AWSPolicyCollector:
                 for func in page["Functions"]:
                     try:
                         policy: str = lambda_client.get_policy(FunctionName=func["FunctionName"])["Policy"]
-                        policies.append({
-                            "resource_name": func["FunctionName"],
-                            "resource_id": func["FunctionArn"],
-                            "policy": policy
-                        })
+                        policies.append(
+                            {
+                                "resource_name": func["FunctionName"],
+                                "resource_id": func["FunctionArn"],
+                                "policy": policy,
+                            }
+                        )
                     except ClientError:
                         pass
         except ClientError:
@@ -159,11 +153,13 @@ class AWSPolicyCollector:
                     try:
                         attrs: Dict[str, str] = sns.get_topic_attributes(TopicArn=topic_arn)["Attributes"]
                         if "Policy" in attrs:
-                            policies.append({
-                                "resource_name": topic_arn.split(":")[-1],
-                                "resource_id": topic_arn,
-                                "policy": attrs["Policy"]
-                            })
+                            policies.append(
+                                {
+                                    "resource_name": topic_arn.split(":")[-1],
+                                    "resource_id": topic_arn,
+                                    "policy": attrs["Policy"],
+                                }
+                            )
                     except ClientError:
                         pass
         except ClientError:
@@ -177,13 +173,17 @@ class AWSPolicyCollector:
         try:
             for queue_url in sqs.list_queues().get("QueueUrls", []):
                 try:
-                    attrs: Dict[str, str] = sqs.get_queue_attributes(QueueUrl=queue_url, AttributeNames=["Policy", "QueueArn"])["Attributes"]
+                    attrs = sqs.get_queue_attributes(QueueUrl=queue_url, AttributeNames=["Policy", "QueueArn"])[
+                        "Attributes"
+                    ]
                     if "Policy" in attrs:
-                        policies.append({
-                            "resource_name": queue_url.split("/")[-1],
-                            "resource_id": attrs.get("QueueArn", queue_url),
-                            "policy": attrs["Policy"]
-                        })
+                        policies.append(
+                            {
+                                "resource_name": queue_url.split("/")[-1],
+                                "resource_id": attrs.get("QueueArn", queue_url),
+                                "policy": attrs["Policy"],
+                            }
+                        )
                 except ClientError:
                     pass
         except ClientError:

@@ -120,13 +120,33 @@ mypy==1.17.1 \
     --hash=sha256:feb8cc32d319edd5859da2cc084493b3e2ce5e49a946377663cc90f6c15fb259 \
     --hash=sha256:ff2933428516ab63f961644bc49bc4cbe42bbffb2cd3b71cc7277c07d16b1a8b
     # via lock-and-key (pyproject.toml)
+mypy-boto3-dynamodb==1.40.20 \
+    --hash=sha256:276f12132b19e5cd9c8c2e551899128acfad39fb56fc77c7e0b005b29d86c844 \
+    --hash=sha256:2f424315d299ccf0b3b4e3b2b2300f90f09cd0b7c69fc473d0cdc0b6be6c30d6
+    # via lock-and-key (pyproject.toml)
+mypy-boto3-glue==1.40.20 \
+    --hash=sha256:c319d9d50a23b17ab351aa08b7942cb4d82969a01a949bf3f0dcb7a26f087419 \
+    --hash=sha256:f04701844796637d0b3feafbe495131b4edc2986c23432e662e433259e84c8a6
+    # via lock-and-key (pyproject.toml)
 mypy-boto3-iam==1.40.0 \
     --hash=sha256:46e354287c93b4f84eef2407076f56cb42e504336eaec114641b1b184808fae8 \
     --hash=sha256:b900ac557375428f0bbc37aa24fdd2901e2db7018ae44e0aaf99ec0f84a28d44
     # via lock-and-key (pyproject.toml)
+mypy-boto3-lambda==1.40.7 \
+    --hash=sha256:398c9dd051278430168e907b6b6c2078a3a1bca3948c2bf4d47eda8d7da28573 \
+    --hash=sha256:e8bedf03a67fade5db861fe902df063064292352eed5f785f74cd0e591948db9
+    # via lock-and-key (pyproject.toml)
 mypy-boto3-s3==1.40.0 \
     --hash=sha256:5736b7780d57a156312d8d136462c207671d0236b0355704b5754496bb712bc8 \
     --hash=sha256:99a4a27f04d62fe0b31032f274f2e19889fa66424413617a9416873c48567f1d
+    # via lock-and-key (pyproject.toml)
+mypy-boto3-sns==1.40.1 \
+    --hash=sha256:538920699f461b6f142b6dd36492b6a27c2113410ed427422122c7da9d2c921a \
+    --hash=sha256:e06d89db10c83364096365c630a144d59ca3e0fdb663bbd6b73bd1816d1e53db
+    # via lock-and-key (pyproject.toml)
+mypy-boto3-sqs==1.40.17 \
+    --hash=sha256:04de818a43258795c84a093d41d3191c8d89446e8c43fea774f453b8124a7d56 \
+    --hash=sha256:f0361de7cec1b82a580d1b02e8135f64006f727b76b324d35c52491dd45f3a32
     # via lock-and-key (pyproject.toml)
 mypy-boto3-sts==1.40.0 \
     --hash=sha256:eb55e50960ae6194d09488464c302196392df712a6a5f4308b6a0e24244cfd5c \
@@ -299,8 +319,13 @@ typing-extensions==4.15.0 \
     # via
     #   boto3-stubs
     #   mypy
+    #   mypy-boto3-dynamodb
+    #   mypy-boto3-glue
     #   mypy-boto3-iam
+    #   mypy-boto3-lambda
     #   mypy-boto3-s3
+    #   mypy-boto3-sns
+    #   mypy-boto3-sqs
     #   mypy-boto3-sts
     #   pydantic
     #   pydantic-core

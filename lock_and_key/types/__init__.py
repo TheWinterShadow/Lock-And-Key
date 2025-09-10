@@ -8,7 +8,7 @@ from .scan_results import Finding, ScanResult, ScanSummary
 __all__ = [
     "CloudProviderBase",
     "AWSCreds",
-    "AzureCreds", 
+    "AzureCreds",
     "GCPCreds",
     "CredentialsError",
     "LockAndKeyError",
