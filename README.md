@@ -3,7 +3,7 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
 
-**Lock & Key** is a comprehensive cloud security scanner that analyzes IAM policies and resource-based policies across multiple cloud providers to identify security vulnerabilities, excessive permissions, and compliance issues.
+**Lock & Key** is a comprehensive cloud security scanner that analyzes access policies and resource-based policies across multiple cloud providers to identify security vulnerabilities, excessive permissions, and compliance issues.
 
 ## Features
 
