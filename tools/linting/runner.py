@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
+"""Simple runner script for linting tools."""
+
 import subprocess
 import sys
 
-
-def main():
-    if len(sys.argv) < 3:
-        print("Usage: runner.py <tool_name> <files...>")
-        sys.exit(1)
-
-    tool = sys.argv[1]
-    files = sys.argv[2:]
-
-    result = subprocess.run([tool, *files])
-    sys.exit(result.returncode)
-
-
 if __name__ == "__main__":
-    main()
+    # Get the tool name and arguments
+    if len(sys.argv) < 2:
+        print("Usage: runner.py <tool> [args...]", file=sys.stderr)
+        sys.exit(1)
+    
+    tool = sys.argv[1]
+    args = sys.argv[2:]
+    
+    # Execute the tool directly
+    try:
+        result = subprocess.run([tool] + args, check=False)
+        sys.exit(result.returncode)
+    except FileNotFoundError:
+        print(f"Tool '{tool}' not found", file=sys.stderr)
+        sys.exit(1)

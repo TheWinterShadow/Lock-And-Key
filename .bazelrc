@@ -1,7 +1,7 @@
 try-import /workspaces/Lock-And-Key/auth.bazelrc
 
 common --enable_bzlmod
-# build --symlink_prefix=/
+build --symlink_prefix=/
 test --test_output=errors --enable_runfiles
 
 build --bes_results_url=https://app.buildbuddy.io/invocation/

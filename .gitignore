@@ -3,7 +3,7 @@
 dist/
 bazel-*
 auth.bazelrc
-lock_and_key/__pycache__/*
-lock_and_key/core/__pycache__/*
+**/__pycache__/**
+lock_and_key/core/__pycache__/
+reports/
 auth.aws
-reports/*
