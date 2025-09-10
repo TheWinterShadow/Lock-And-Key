@@ -103,7 +103,7 @@ Reports are generated in JSON format with the following structure:
 
 ### Requirements
 
-- Python 3.8+
+- Python 3.10+
 - boto3 (for AWS)
 - click (CLI framework)
 - rich (terminal formatting)

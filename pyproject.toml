@@ -53,9 +53,9 @@ dev = [
 lock-and-key = "lock_and_key.cli:cli"
 
 [project.urls]
-Documentation = "https://github.com/WinterShadow/lock-and-key#readme"
-Issues = "https://github.com/WinterShadow/lock-and-key/issues"
-Source = "https://github.com/WinterShadow/lock-and-key"
+Documentation = "https://github.com/TheWinterShadow/lock-and-key#readme"
+Issues = "https://github.com/TheWinterShadow/lock-and-key/issues"
+Source = "https://github.com/TheWinterShadow/lock-and-key"
 
 [tool.hatch.version]
 path = "lock_and_key/__about__.py"
