@@ -36,10 +36,6 @@ jobs:
       run: |
         hatch run dev:mypy lock_and_key
         
-    - name: Test TYPE_CHECKING behavior
-      run: |
-        hatch run python tests/test_type_checking.py
-        
     - name: Run tests  
       run: |
         hatch test

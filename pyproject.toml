@@ -194,7 +194,6 @@ dependencies = [
 typecheck = "mypy lock_and_key"
 typecheck-strict = "mypy --strict lock_and_key"
 typecheck-report = "mypy --html-report mypy-report lock_and_key"
-test-type-checking = "python test_type_checking.py"
 # Documentation scripts  
 docs = "sphinx-build -b html docs/source docs/build"
 docs-clean = "sphinx-build -b html -E docs/source docs/build"
