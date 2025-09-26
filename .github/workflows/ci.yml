@@ -34,11 +34,11 @@ jobs:
     
     - name: Run type checking
       run: |
-        hatch run mypy lock_and_key
+        hatch run dev:mypy lock_and_key
         
     - name: Test TYPE_CHECKING behavior
       run: |
-        hatch run python test_type_checking.py
+        hatch run python tests/test_type_checking.py
         
     - name: Run tests  
       run: |
