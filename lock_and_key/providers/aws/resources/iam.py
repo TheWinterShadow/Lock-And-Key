@@ -46,14 +46,18 @@ class IAMService(AWSServiceBase):
                         version_id = policy.get("DefaultVersionId")
                         if not policy_arn or not version_id:
                             continue
-                        response = iam.get_policy_version(PolicyArn=policy_arn, VersionId=version_id)
+                        response = iam.get_policy_version(
+                            PolicyArn=policy_arn, VersionId=version_id
+                        )
                         policy_doc = response["PolicyVersion"]["Document"]
 
                         from typing import cast
 
                         findings.extend(
                             analyzer.analyze_policy(
-                                cast(str, policy_doc), policy.get("PolicyName", "MISSING"), policy.get("Arn", "MISSING")
+                                cast(str, policy_doc),
+                                policy.get("PolicyName", "MISSING"),
+                                policy.get("Arn", "MISSING"),
                             )
                         )
                     except ClientError:
@@ -81,29 +85,39 @@ class IAMService(AWSServiceBase):
 
         return findings
 
-    def _analyze_policy(self, iam: Any, policy: PolicyTypeDef, account_id: str) -> List[str]:
+    def _analyze_policy(
+        self, iam: Any, policy: PolicyTypeDef, account_id: str
+    ) -> List[str]:
         """Analyze individual IAM policy."""
         issues: List[str] = []
         policy_name = policy.get("PolicyName")
 
         try:
             # Get policy document
-            response = iam.get_policy_version(PolicyArn=policy.get("Arn"), VersionId=policy.get("DefaultVersionId"))
+            response = iam.get_policy_version(
+                PolicyArn=policy.get("Arn"), VersionId=policy.get("DefaultVersionId")
+            )
 
             policy_doc = response["PolicyVersion"]["Document"]
 
             for statement in policy_doc.get("Statement", []):
                 # Check for overly permissive actions
                 if self._has_admin_permissions(statement):
-                    issues.append(f"Policy {policy_name}: Administrative permissions (*:*) detected")
+                    issues.append(
+                        f"Policy {policy_name}: Administrative permissions (*:*) detected"
+                    )
 
                 # Check for wildcard resources
                 if self._has_wildcard_resources(statement):
-                    issues.append(f"Policy {policy_name}: Wildcard resources (*) detected")
+                    issues.append(
+                        f"Policy {policy_name}: Wildcard resources (*) detected"
+                    )
 
                 # Check for privilege escalation risks
                 if self._has_privilege_escalation_risk(statement):
-                    issues.append(f"Policy {policy_name}: Privilege escalation risk detected")
+                    issues.append(
+                        f"Policy {policy_name}: Privilege escalation risk detected"
+                    )
 
         except ClientError:
             issues.append(f"Policy {policy_name}: Failed to retrieve policy document")
@@ -144,13 +158,17 @@ class IAMService(AWSServiceBase):
 
         return any(action in risky_actions for action in actions)
 
-    def _analyze_policy_detailed(self, iam: Any, policy: PolicyTypeDef, account_id: str) -> List[Finding]:
+    def _analyze_policy_detailed(
+        self, iam: Any, policy: PolicyTypeDef, account_id: str
+    ) -> List[Finding]:
         """Analyze individual IAM policy and return detailed findings."""
         findings: List[Finding] = []
         policy_name = policy.get("PolicyName", "MISSING")
 
         try:
-            response = iam.get_policy_version(PolicyArn=policy.get("Arn"), VersionId=policy.get("DefaultVersionId"))
+            response = iam.get_policy_version(
+                PolicyArn=policy.get("Arn"), VersionId=policy.get("DefaultVersionId")
+            )
             policy_doc = response["PolicyVersion"]["Document"]
 
             for statement in policy_doc.get("Statement", []):

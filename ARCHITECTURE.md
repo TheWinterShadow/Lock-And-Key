@@ -1,5 +1,7 @@
 # Lock & Key Architecture
 
+📖 **[Complete Documentation](https://thewintershadow.github.io/lock-and-key/)** | 🏗️ **[Development Guide](https://thewintershadow.github.io/lock-and-key/development.html)**
+
 ## Project Structure
 
 ```

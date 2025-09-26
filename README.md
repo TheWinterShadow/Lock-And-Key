@@ -2,8 +2,12 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://thewintershadow.github.io/lock-and-key/)
+[![GitHub](https://img.shields.io/github/license/TheWinterShadow/lock-and-key)](https://github.com/TheWinterShadow/lock-and-key/blob/main/LICENSE.txt)
 
 **Lock & Key** is a comprehensive cloud security scanner that analyzes access policies and resource-based policies across multiple cloud providers to identify security vulnerabilities, excessive permissions, and compliance issues.
+
+📖 **[Full Documentation](https://thewintershadow.github.io/lock-and-key/)** | 🚀 **[Quick Start](#quick-start)** | 💻 **[Installation](#installation)**
 
 ## Features
 
@@ -24,11 +28,25 @@
 - **SQS**: Queue policies
 - **Glue**: Data catalog and database policies
 
-## Installation
+## Quick Start
+
+### Installation
 
 ```console
 pip install lock-and-key
 ```
+
+### Run Your First Scan
+
+```console
+# Interactive mode (recommended for first-time users)
+lock-and-key interactive
+
+# Direct AWS scan with profile
+lock-and-key scan --provider AWS --profile my-profile
+```
+
+**Need help with setup?** Check out the **[Installation Guide](https://thewintershadow.github.io/lock-and-key/installation.html)** for detailed instructions.
 
 ## Usage
 
@@ -99,36 +117,33 @@ Reports are generated in JSON format with the following structure:
 }
 ```
 
-## Development
+## Documentation
 
-### Requirements
+📚 **[Complete Documentation](https://thewintershadow.github.io/lock-and-key/)**
 
-- Python 3.10+
-- boto3 (for AWS)
-- click (CLI framework)
-- rich (terminal formatting)
-- pydantic (data validation)
-
-### Project Structure
-
-```
-lock_and_key/
-├── cli.py              # Command-line interface
-├── core/
-│   ├── scanner.py      # Main scanner logic
-│   └── ui.py          # User interface utilities
-├── providers/
-│   ├── aws/           # AWS implementation
-│   ├── azure.py       # Azure (in progress)
-│   └── gcp.py         # GCP (in progress)
-└── types/             # Data models and types
-```
+- **[Installation Guide](https://thewintershadow.github.io/lock-and-key/installation.html)** - Detailed installation instructions and AWS setup
+- **[Usage Guide](https://thewintershadow.github.io/lock-and-key/usage.html)** - Command-line examples and output interpretation
+- **[API Reference](https://thewintershadow.github.io/lock-and-key/api.html)** - Complete API documentation
+- **[Development Guide](https://thewintershadow.github.io/lock-and-key/development.html)** - Contributing and development setup
 
 ## Cloud Provider Status
 
 - ✅ **AWS**: Fully implemented with comprehensive policy analysis
-- 🚧 **Azure**: In progress
+- 🚧 **Azure**: In progress  
 - 🚧 **GCP**: In progress
+
+## Development
+
+For development setup, testing, and contributing guidelines, see the **[Development Guide](https://thewintershadow.github.io/lock-and-key/development.html)**.
+
+### Quick Development Setup
+
+```bash
+git clone https://github.com/TheWinterShadow/lock-and-key.git
+cd lock-and-key
+hatch env create
+hatch test
+```
 
 ## License
 

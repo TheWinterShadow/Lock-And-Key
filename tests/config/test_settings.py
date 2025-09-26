@@ -21,8 +21,8 @@ class TestSettings(unittest.TestCase):
         """Test that CLOUD_PROVIDERS has correct descriptions."""
         expected_values = {
             "AWS": "Amazon Web Services",
-            "GCP": "Google Cloud Platform", 
-            "Azure": "Microsoft Azure"
+            "GCP": "Google Cloud Platform",
+            "Azure": "Microsoft Azure",
         }
         self.assertEqual(CLOUD_PROVIDERS, expected_values)
 
@@ -34,5 +34,5 @@ class TestSettings(unittest.TestCase):
         self.assertEqual(len(CLOUD_PROVIDERS), original_count)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

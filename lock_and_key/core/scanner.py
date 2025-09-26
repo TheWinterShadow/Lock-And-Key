@@ -1,6 +1,6 @@
 """Core scanner functionality."""
 
-from typing import Optional
+from typing import Any, Optional, Union
 
 import click
 from rich.console import Console
@@ -24,11 +24,13 @@ class LockAndKeyScanner:
         """Prompt user to select a cloud provider."""
         provider_names = list(self.providers.keys())
         for idx, name in enumerate(provider_names, 1):
-            self.console.print(f"[cyan]{idx}.[/cyan] {name} ({self.providers[name].description})")
+            self.console.print(
+                f"[cyan]{idx}.[/cyan] {name} ({self.providers[name].description})"
+            )
 
         choice = click.prompt("Select a provider by number", type=int)
         if 1 <= choice <= len(provider_names):
-            return provider_names[choice - 1]
+            return str(provider_names[choice - 1])
         return None
 
     def run_interactive(self) -> None:
@@ -37,7 +39,9 @@ class LockAndKeyScanner:
 
         # Prompt for output directory if not set via CLI
         if self.output_dir == "./reports":
-            self.output_dir = click.prompt("Enter output directory for reports", default="./reports")
+            self.output_dir = click.prompt(
+                "Enter output directory for reports", default="./reports"
+            )
 
         while True:
             provider_name = self.select_cloud_provider()
@@ -65,14 +69,20 @@ class LockAndKeyScanner:
                 progress.update(task, completed=True)
             self.summary.add_result(result)
 
-            again = click.confirm("Would you like to scan another cloud provider?", default=False)
+            again = click.confirm(
+                "Would you like to scan another cloud provider?", default=False
+            )
             if not again:
                 break
 
         self.summary.render()
-        self.console.print("[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]")
+        self.console.print(
+            "[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]"
+        )
 
-    def run_single_provider(self, provider_name: str, **kwargs: dict[str, object]) -> None:
+    def run_single_provider(
+        self, provider_name: str, **kwargs: dict[str, object]
+    ) -> None:
         """Run scan for a single provider with provided credentials."""
         print_banner()
 
@@ -103,9 +113,13 @@ class LockAndKeyScanner:
             progress.update(task, completed=True)
         self.summary.add_result(result)
         self.summary.render()
-        self.console.print("[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]")
+        self.console.print(
+            "[bold cyan]Thank you for using Lock & Key Cloud Scanner![/bold cyan]"
+        )
 
-    def _build_credentials(self, provider_name: str, **kwargs):
+    def _build_credentials(
+        self, provider_name: str, **kwargs: Any
+    ) -> Union[AWSCreds, AzureCreds, GCPCreds, None]:
         """Build credentials object from kwargs."""
         if provider_name == "AWS":
             return AWSCreds(
@@ -115,7 +129,9 @@ class LockAndKeyScanner:
                 region=kwargs.get("region"),
             )
         elif provider_name == "GCP":
-            return GCPCreds(creds_path=kwargs.get("creds_path"), creds_json=kwargs.get("creds_json"))
+            return GCPCreds(
+                creds_path=kwargs.get("creds_path"), creds_json=kwargs.get("creds_json")
+            )
         elif provider_name == "Azure":
             return AzureCreds(
                 creds_path=kwargs.get("creds_path"),

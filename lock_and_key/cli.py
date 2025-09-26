@@ -1,19 +1,23 @@
 """Command-line interface for Lock & Key."""
 
+from typing import Any
+
 import click
 
 from lock_and_key.core import LockAndKeyScanner
 
 
 @click.group()
-def cli():
+def cli() -> None:
     """Lock & Key Cloud Scanner CLI."""
     pass
 
 
 @cli.command()
-@click.option("--output-dir", type=str, default="./reports", help="Output directory for reports")
-def interactive(output_dir):
+@click.option(
+    "--output-dir", type=str, default="./reports", help="Output directory for reports"
+)
+def interactive(output_dir: str) -> None:
     """Run the interactive cloud scan workflow."""
     scanner = LockAndKeyScanner(output_dir=output_dir)
     scanner.run_interactive()
@@ -36,8 +40,10 @@ def interactive(output_dir):
 @click.option("--secret", type=str, help="Azure Client Secret")
 @click.option("--tenant-id", type=str, help="Azure Tenant ID")
 @click.option("--subscription-id", type=str, help="Azure Subscription ID")
-@click.option("--output-dir", type=str, default="./reports", help="Output directory for reports")
-def scan(provider, output_dir, **kwargs):
+@click.option(
+    "--output-dir", type=str, default="./reports", help="Output directory for reports"
+)
+def scan(provider: str, output_dir: str, **kwargs: Any) -> None:
     """Run a single provider scan with provided credentials."""
     scanner = LockAndKeyScanner(output_dir=output_dir)
     scanner.run_single_provider(provider, **kwargs)

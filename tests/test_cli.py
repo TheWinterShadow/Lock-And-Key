@@ -17,38 +17,37 @@ class TestCLI(unittest.TestCase):
 
     def test_cli_group_exists(self):
         """Test that CLI group is properly defined."""
-        result = self.runner.invoke(cli, ['--help'])
+        result = self.runner.invoke(cli, ["--help"])
         self.assertEqual(result.exit_code, 0)
-        self.assertIn('Lock & Key Cloud Scanner CLI', result.output)
+        self.assertIn("Lock & Key Cloud Scanner CLI", result.output)
 
-    @patch('lock_and_key.cli.LockAndKeyScanner')
+    @patch("lock_and_key.cli.LockAndKeyScanner")
     def test_interactive_command(self, mock_scanner_class):
         """Test interactive command execution."""
         mock_scanner = Mock()
         mock_scanner_class.return_value = mock_scanner
-        
+
         result = self.runner.invoke(interactive)
-        
+
         self.assertEqual(result.exit_code, 0)
         mock_scanner_class.assert_called_once()
         mock_scanner.run_interactive.assert_called_once()
 
-    @patch('lock_and_key.cli.LockAndKeyScanner')
+    @patch("lock_and_key.cli.LockAndKeyScanner")
     def test_scan_command_aws(self, mock_scanner_class):
         """Test scan command with AWS provider."""
         mock_scanner = Mock()
         mock_scanner_class.return_value = mock_scanner
-        
-        result = self.runner.invoke(scan, [
-            '--provider', 'AWS',
-            '--profile', 'test-profile'
-        ])
-        
+
+        result = self.runner.invoke(
+            scan, ["--provider", "AWS", "--profile", "test-profile"]
+        )
+
         self.assertEqual(result.exit_code, 0)
         mock_scanner_class.assert_called_once()
         mock_scanner.run_single_provider.assert_called_once_with(
-            'AWS', 
-            profile='test-profile',
+            "AWS",
+            profile="test-profile",
             access_key=None,
             secret_key=None,
             region=None,
@@ -57,20 +56,20 @@ class TestCLI(unittest.TestCase):
             client_id=None,
             secret=None,
             tenant_id=None,
-            subscription_id=None
+            subscription_id=None,
         )
 
     def test_scan_command_missing_provider(self):
         """Test scan command fails without provider."""
         result = self.runner.invoke(scan)
         self.assertNotEqual(result.exit_code, 0)
-        self.assertIn('Missing option', result.output)
+        self.assertIn("Missing option", result.output)
 
     def test_scan_command_invalid_provider(self):
         """Test scan command with invalid provider choice."""
-        result = self.runner.invoke(scan, ['--provider', 'INVALID'])
+        result = self.runner.invoke(scan, ["--provider", "INVALID"])
         self.assertNotEqual(result.exit_code, 0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

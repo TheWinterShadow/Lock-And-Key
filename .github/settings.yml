@@ -1,0 +1,30 @@
+# Repository settings for Lock & Key
+
+name: lock-and-key
+description: "Comprehensive cloud security scanner for IAM and resource-based policies"
+homepage: "https://thewintershadow.github.io/lock-and-key/"
+topics:
+  - security
+  - cloud
+  - aws
+  - azure
+  - gcp
+  - iam
+  - scanner
+  - cybersecurity
+  - policies
+
+# Documentation
+wiki: false
+pages: true
+
+# Issues and discussions  
+issues: true
+discussions: false
+
+# Security
+security_and_analysis:
+  secret_scanning:
+    status: enabled
+  secret_scanning_push_protection:
+    status: enabled

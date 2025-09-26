@@ -13,7 +13,9 @@ class IAMPolicyAnalyzer:
         """Initialize analyzer with account ID for external access detection."""
         self.account_id = account_id
 
-    def analyze_policy(self, policy_data: Union[str, dict], resource_name: str, resource_id: str) -> List[Finding]:
+    def analyze_policy(
+        self, policy_data: Union[str, dict], resource_name: str, resource_id: str
+    ) -> List[Finding]:
         """Analyze a single policy and return findings."""
         findings = []
 
@@ -28,7 +30,9 @@ class IAMPolicyAnalyzer:
                 statements = [statements]
 
             for statement in statements:
-                findings.extend(self._analyze_statement(statement, resource_name, resource_id))
+                findings.extend(
+                    self._analyze_statement(statement, resource_name, resource_id)
+                )
 
         except (json.JSONDecodeError, TypeError):
             findings.append(
@@ -44,7 +48,9 @@ class IAMPolicyAnalyzer:
 
         return findings
 
-    def _analyze_statement(self, statement: Dict[str, Any], resource_name: str, resource_id: str) -> List[Finding]:
+    def _analyze_statement(
+        self, statement: Dict[str, Any], resource_name: str, resource_id: str
+    ) -> List[Finding]:
         """Analyze individual policy statement."""
         findings = []
 
@@ -112,7 +118,11 @@ class IAMPolicyAnalyzer:
                 aws_principals = [aws_principals]
 
             for principal in aws_principals:
-                if isinstance(principal, str) and self.account_id not in principal and principal != "*":
+                if (
+                    isinstance(principal, str)
+                    and self.account_id not in principal
+                    and principal != "*"
+                ):
                     return True
 
         return False
@@ -126,7 +136,9 @@ class IAMPolicyAnalyzer:
 
         if isinstance(principals, dict):
             aws_principals = principals.get("AWS", [])
-            if aws_principals == "*" or (isinstance(aws_principals, list) and "*" in aws_principals):
+            if aws_principals == "*" or (
+                isinstance(aws_principals, list) and "*" in aws_principals
+            ):
                 return True
 
         return False

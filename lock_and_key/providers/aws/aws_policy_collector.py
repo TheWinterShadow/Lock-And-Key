@@ -43,7 +43,9 @@ class AWSPolicyCollector:
                 for policy_data in policies:
                     findings.extend(
                         analyzer.analyze_policy(
-                            policy_data["policy"], policy_data["resource_name"], policy_data["resource_id"]
+                            policy_data["policy"],
+                            policy_data["resource_name"],
+                            policy_data["resource_id"],
                         )
                     )
             except Exception:
@@ -61,7 +63,11 @@ class AWSPolicyCollector:
                 try:
                     policy: str = s3.get_bucket_policy(Bucket=bucket_name)["Policy"]
                     policies.append(
-                        {"resource_name": bucket_name, "resource_id": f"arn:aws:s3:::{bucket_name}", "policy": policy}
+                        {
+                            "resource_name": bucket_name,
+                            "resource_id": f"arn:aws:s3:::{bucket_name}",
+                            "policy": policy,
+                        }
                     )
                 except ClientError:
                     pass
@@ -77,9 +83,19 @@ class AWSPolicyCollector:
             for page in dynamodb.get_paginator("list_tables").paginate():
                 for table_name in page["TableNames"]:
                     try:
-                        table_arn: str = dynamodb.describe_table(TableName=table_name)["Table"]["TableArn"]
-                        policy: str = dynamodb.get_resource_policy(ResourceArn=table_arn)["Policy"]
-                        policies.append({"resource_name": table_name, "resource_id": table_arn, "policy": policy})
+                        table_arn: str = dynamodb.describe_table(TableName=table_name)[
+                            "Table"
+                        ]["TableArn"]
+                        policy: str = dynamodb.get_resource_policy(
+                            ResourceArn=table_arn
+                        )["Policy"]
+                        policies.append(
+                            {
+                                "resource_name": table_name,
+                                "resource_id": table_arn,
+                                "policy": policy,
+                            }
+                        )
                     except ClientError:
                         pass
         except ClientError:
@@ -110,10 +126,20 @@ class AWSPolicyCollector:
             for page in glue.get_paginator("get_databases").paginate():
                 for db in page["DatabaseList"]:
                     db_name: str = db["Name"]
-                    db_arn: str = f"arn:aws:glue:{region}:{account_id}:database/{db_name}"
+                    db_arn: str = (
+                        f"arn:aws:glue:{region}:{account_id}:database/{db_name}"
+                    )
                     try:
-                        db_policy: str = glue.get_resource_policy(ResourceArn=db_arn)["PolicyInJson"]
-                        policies.append({"resource_name": db_name, "resource_id": db_arn, "policy": db_policy})
+                        db_policy: str = glue.get_resource_policy(ResourceArn=db_arn)[
+                            "PolicyInJson"
+                        ]
+                        policies.append(
+                            {
+                                "resource_name": db_name,
+                                "resource_id": db_arn,
+                                "policy": db_policy,
+                            }
+                        )
                     except ClientError:
                         pass
         except ClientError:
@@ -128,7 +154,9 @@ class AWSPolicyCollector:
             for page in lambda_client.get_paginator("list_functions").paginate():
                 for func in page["Functions"]:
                     try:
-                        policy: str = lambda_client.get_policy(FunctionName=func["FunctionName"])["Policy"]
+                        policy: str = lambda_client.get_policy(
+                            FunctionName=func["FunctionName"]
+                        )["Policy"]
                         policies.append(
                             {
                                 "resource_name": func["FunctionName"],
@@ -151,7 +179,9 @@ class AWSPolicyCollector:
                 for topic in page["Topics"]:
                     topic_arn: str = topic["TopicArn"]
                     try:
-                        attrs: Dict[str, str] = sns.get_topic_attributes(TopicArn=topic_arn)["Attributes"]
+                        attrs: Dict[str, str] = sns.get_topic_attributes(
+                            TopicArn=topic_arn
+                        )["Attributes"]
                         if "Policy" in attrs:
                             policies.append(
                                 {
@@ -173,9 +203,9 @@ class AWSPolicyCollector:
         try:
             for queue_url in sqs.list_queues().get("QueueUrls", []):
                 try:
-                    attrs = sqs.get_queue_attributes(QueueUrl=queue_url, AttributeNames=["Policy", "QueueArn"])[
-                        "Attributes"
-                    ]
+                    attrs = sqs.get_queue_attributes(
+                        QueueUrl=queue_url, AttributeNames=["Policy", "QueueArn"]
+                    )["Attributes"]
                     if "Policy" in attrs:
                         policies.append(
                             {

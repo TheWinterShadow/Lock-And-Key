@@ -10,18 +10,18 @@ class TestAbout(unittest.TestCase):
 
     def test_version_exists(self):
         """Test that __version__ attribute exists."""
-        self.assertTrue(hasattr(__about__, '__version__'))
+        self.assertTrue(hasattr(__about__, "__version__"))
 
     def test_version_format(self):
         """Test that version follows semantic versioning format."""
         version = __about__.__version__
         self.assertIsInstance(version, str)
         # Basic semantic version check (x.y.z)
-        parts = version.split('.')
+        parts = version.split(".")
         self.assertEqual(len(parts), 3)
         for part in parts:
             self.assertTrue(part.isdigit())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

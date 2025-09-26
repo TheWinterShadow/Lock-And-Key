@@ -32,7 +32,9 @@ class AWSProvider(CloudProviderBase):
 
         return AWSCreds(access_key=access_key, secret_key=secret_key, region=region)
 
-    def run_analysis(self, creds: AWSCreds, output_dir: str = "./reports") -> ScanResult:
+    def run_analysis(
+        self, creds: AWSCreds, output_dir: str = "./reports"
+    ) -> ScanResult:
         """Run AWS security analysis for all resource policies."""
         try:
             # Initialize services
@@ -51,9 +53,14 @@ class AWSProvider(CloudProviderBase):
                 account_id=account_id,
                 issues_found=len(all_findings),
                 least_privilege_violations=sum(
-                    1 for f in all_findings if "wildcard" in f.description.lower() or "Administrative" in f.description
+                    1
+                    for f in all_findings
+                    if "wildcard" in f.description.lower()
+                    or "Administrative" in f.description
                 ),
-                high_risk_permissions=sum(1 for f in all_findings if f.severity == "High"),
+                high_risk_permissions=sum(
+                    1 for f in all_findings if f.severity == "High"
+                ),
                 summary=f"Scanned IAM and all resource policies. Found {len(all_findings)} security issues.",
                 report_path=f"{output_dir}/aws_report_{account_id}.json",
                 findings=all_findings,

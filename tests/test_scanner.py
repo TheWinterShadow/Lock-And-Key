@@ -9,7 +9,7 @@ import unittest
 
 class TestLegacyScanner(unittest.TestCase):
     """Legacy test class - see tests/core/test_scanner.py for actual tests."""
-    
+
     def test_legacy_notice(self):
         """Test to indicate tests have been moved."""
         self.assertTrue(True, "Scanner tests moved to tests/core/test_scanner.py")
