@@ -1,5 +1,7 @@
 # Lock-And-Key
 
+[![Deploy Documentation](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/docs.yml/badge.svg)](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/docs.yml) [![Publish to PyPI](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/python-package.yml/badge.svg)](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/python-package.yml)
+
 [![PyPI - Version](https://img.shields.io/pypi/v/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://thewintershadow.github.io/Lock-And-Key/)
