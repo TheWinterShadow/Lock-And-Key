@@ -49,6 +49,30 @@ jobs:
         python -m pip install twine
         twine check dist/*
         
+    - name: Test wheel installation and CLI
+      run: |
+        # Create a fresh virtual environment for testing
+        python -m venv test_venv
+        source test_venv/bin/activate
+        
+        # Install the wheel package
+        python -m pip install --upgrade pip
+        python -m pip install dist/*.whl
+        
+        # Test that the CLI works
+        lock-and-key --help
+        
+        # Test TYPE_CHECKING behavior with fresh install
+        python -c "import lock_and_key; print('✅ Package imports successfully')"
+        python -c "import lock_and_key.cli; print('✅ CLI module imports successfully')"
+        python -c "import lock_and_key.core.scanner; print('✅ Core scanner imports successfully')"
+        
+        # Deactivate and cleanup
+        deactivate
+        rm -rf test_venv
+        
+        echo "🎉 Wheel installation and CLI test successful!"
+        
     - name: Workflow Summary
       run: |
         echo "✅ CI Tests completed successfully for Python ${{ matrix.python-version }}" >> $GITHUB_STEP_SUMMARY
@@ -56,4 +80,5 @@ jobs:
         echo "🛡️ TYPE_CHECKING guards verified" >> $GITHUB_STEP_SUMMARY
         echo "🧪 All tests passed" >> $GITHUB_STEP_SUMMARY  
         echo "📦 Package verification successful" >> $GITHUB_STEP_SUMMARY
+        echo "🎯 Wheel installation and CLI test successful" >> $GITHUB_STEP_SUMMARY
         echo "🔄 Next: Build and Package workflow will run automatically" >> $GITHUB_STEP_SUMMARY
