@@ -45,7 +45,7 @@ classifiers = [
 lock-and-key = "lock_and_key.cli:cli"
 
 [project.urls]
-Documentation = "https://thewinterShadow.github.io/lock-and-key/"
+Documentation = "https://thewintershadow.github.io/Lock-And-Key/"
 Homepage = "https://github.com/TheWinterShadow/lock-and-key"
 Repository = "https://github.com/TheWinterShadow/lock-and-key"
 Issues = "https://github.com/TheWinterShadow/lock-and-key/issues"

@@ -2,12 +2,12 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
-[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://thewintershadow.github.io/lock-and-key/)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://thewintershadow.github.io/Lock-And-Key/)
 [![GitHub](https://img.shields.io/github/license/TheWinterShadow/lock-and-key)](https://github.com/TheWinterShadow/lock-and-key/blob/main/LICENSE.txt)
 
 **Lock & Key** is a comprehensive cloud security scanner that analyzes access policies and resource-based policies across multiple cloud providers to identify security vulnerabilities, excessive permissions, and compliance issues.
 
-📖 **[Full Documentation](https://thewintershadow.github.io/lock-and-key/)** | 🚀 **[Quick Start](#quick-start)** | 💻 **[Installation](#installation)**
+📖 **[Full Documentation](https://thewintershadow.github.io/Lock-And-Key/)** | 🚀 **[Quick Start](#quick-start)** | 💻 **[Installation](#installation)**
 
 ## Features
 
@@ -46,7 +46,7 @@ lock-and-key interactive
 lock-and-key scan --provider AWS --profile my-profile
 ```
 
-**Need help with setup?** Check out the **[Installation Guide](https://thewintershadow.github.io/lock-and-key/installation.html)** for detailed instructions.
+**Need help with setup?** Check out the **[Installation Guide](https://thewintershadow.github.io/Lock-And-Key/installation.html)** for detailed instructions.
 
 ## Usage
 
@@ -119,12 +119,12 @@ Reports are generated in JSON format with the following structure:
 
 ## Documentation
 
-📚 **[Complete Documentation](https://thewintershadow.github.io/lock-and-key/)**
+📚 **[Complete Documentation](https://thewintershadow.github.io/Lock-And-Key/)**
 
-- **[Installation Guide](https://thewintershadow.github.io/lock-and-key/installation.html)** - Detailed installation instructions and AWS setup
-- **[Usage Guide](https://thewintershadow.github.io/lock-and-key/usage.html)** - Command-line examples and output interpretation
-- **[API Reference](https://thewintershadow.github.io/lock-and-key/api.html)** - Complete API documentation
-- **[Development Guide](https://thewintershadow.github.io/lock-and-key/development.html)** - Contributing and development setup
+- **[Installation Guide](https://thewintershadow.github.io/Lock-And-Key/installation.html)** - Detailed installation instructions and AWS setup
+- **[Usage Guide](https://thewintershadow.github.io/Lock-And-Key/usage.html)** - Command-line examples and output interpretation
+- **[API Reference](https://thewintershadow.github.io/Lock-And-Key/api.html)** - Complete API documentation
+- **[Development Guide](https://thewintershadow.github.io/Lock-And-Key/development.html)** - Contributing and development setup
 
 ## Cloud Provider Status
 
@@ -134,7 +134,7 @@ Reports are generated in JSON format with the following structure:
 
 ## Development
 
-For development setup, testing, and contributing guidelines, see the **[Development Guide](https://thewintershadow.github.io/lock-and-key/development.html)**.
+For development setup, testing, and contributing guidelines, see the **[Development Guide](https://thewintershadow.github.io/Lock-And-Key/development.html)**.
 
 ### Quick Development Setup
 

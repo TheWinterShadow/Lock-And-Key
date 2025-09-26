@@ -2,7 +2,7 @@
 
 This directory contains comprehensive unit tests for the Lock & Key cloud security scanner.
 
-📖 **[Documentation](https://thewintershadow.github.io/lock-and-key/)** | 🧪 **[Development Guide](https://thewintershadow.github.io/lock-and-key/development.html)**
+📖 **[Documentation](https://thewintershadow.github.io/Lock-And-Key/)** | 🧪 **[Development Guide](https://thewintershadow.github.io/Lock-And-Key/development.html)**
 
 ## Test Structure
 
@@ -138,7 +138,7 @@ No additional test dependencies are required beyond what's needed for the main a
 
 ## More Information
 
-- 📖 **[Complete Documentation](https://thewintershadow.github.io/lock-and-key/)**
-- 🚀 **[API Reference](https://thewintershadow.github.io/lock-and-key/api.html)**
-- 💻 **[Development Setup](https://thewintershadow.github.io/lock-and-key/development.html)**
+- 📖 **[Complete Documentation](https://thewintershadow.github.io/Lock-And-Key/)**
+- 🚀 **[API Reference](https://thewintershadow.github.io/Lock-And-Key/api.html)**
+- 💻 **[Development Setup](https://thewintershadow.github.io/Lock-And-Key/development.html)**
 - 🐛 **[Report Issues](https://github.com/TheWinterShadow/lock-and-key/issues)**
