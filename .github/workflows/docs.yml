@@ -16,7 +16,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-docs:
+    name: 'Build Documentation'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -32,6 +33,12 @@ jobs:
     - name: Build documentation
       run: hatch run dev:docs
       
+    - name: Workflow Summary
+      run: |
+        echo "✅ Documentation build completed successfully" >> $GITHUB_STEP_SUMMARY
+        echo "📚 Documentation will be deployed to GitHub Pages" >> $GITHUB_STEP_SUMMARY
+        echo "🔄 Next: CI Tests will run automatically" >> $GITHUB_STEP_SUMMARY
+      
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
@@ -40,12 +47,13 @@ jobs:
       with:
         path: 'docs/build'
 
-  deploy:
+  deploy-docs:
+    name: 'Deploy Documentation to GitHub Pages'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-docs
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Deploy to GitHub Pages

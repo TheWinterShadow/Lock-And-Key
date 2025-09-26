@@ -13,9 +13,31 @@ Requirements
 Install from PyPI
 -----------------
 
+Basic Installation
+~~~~~~~~~~~~~~~~~~
+
 .. code-block:: console
 
    $ pip install lock-and-key
+
+Optional Dependencies
+~~~~~~~~~~~~~~~~~~~~~
+
+Lock & Key provides several optional dependency groups for enhanced functionality:
+
+.. code-block:: console
+
+   # Enhanced AWS support with type stubs (better IDE experience)
+   $ pip install lock-and-key[aws]
+
+   # Development tools (testing, linting, formatting)
+   $ pip install lock-and-key[dev]
+
+   # Documentation tools  
+   $ pip install lock-and-key[docs]
+
+   # All optional dependencies
+   $ pip install lock-and-key[all]
 
 Install from Source
 -------------------

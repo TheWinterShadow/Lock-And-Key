@@ -1,6 +1,8 @@
 # Lock-And-Key
 
-[![Deploy Documentation](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/docs.yml/badge.svg)](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/docs.yml) [![Publish to PyPI](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/python-package.yml/badge.svg)](https://github.com/TheWinterShadow/Lock-And-Key/actions/workflows/python-package.yml)
+[![Documentation](https://github.com/TheWinterShadow/lock-and-key/actions/workflows/docs.yml/badge.svg)](https://github.com/TheWinterShadow/lock-and-key/actions/workflows/docs.yml)
+[![CI Tests](https://github.com/TheWinterShadow/lock-and-key/actions/workflows/ci.yml/badge.svg)](https://github.com/TheWinterShadow/lock-and-key/actions/workflows/ci.yml)
+[![Build & Package](https://github.com/TheWinterShadow/lock-and-key/actions/workflows/python-package.yml/badge.svg)](https://github.com/TheWinterShadow/lock-and-key/actions/workflows/python-package.yml)
 
 [![PyPI - Version](https://img.shields.io/pypi/v/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/lock-and-key.svg)](https://pypi.org/project/lock-and-key)
@@ -35,7 +37,17 @@
 ### Installation
 
 ```console
+# Basic installation
 pip install lock-and-key
+
+# With enhanced AWS support (better IDE experience)
+pip install lock-and-key[aws]
+
+# For developers (includes testing and linting tools)
+pip install lock-and-key[dev]
+
+# Everything included
+pip install lock-and-key[all]
 ```
 
 ### Run Your First Scan
