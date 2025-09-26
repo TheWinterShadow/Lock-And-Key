@@ -5,8 +5,8 @@
 project = "Lock & Key"
 copyright = "2025, WinterShadow"
 author = "WinterShadow"
-version = "1.0.2"
-release = "1.0.2"
+version = "1.0.4"
+release = "1.0.4"
 
 # -- General configuration ---------------------------------------------------
 
