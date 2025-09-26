@@ -32,7 +32,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install hatch
     
-    - name: Run tests
+    - name: Run type checking
+      run: |
+        hatch run mypy lock_and_key
+        
+    - name: Test TYPE_CHECKING behavior
+      run: |
+        hatch run python test_type_checking.py
+        
+    - name: Run tests  
       run: |
         hatch test
         
@@ -48,6 +56,8 @@ jobs:
     - name: Workflow Summary
       run: |
         echo "✅ CI Tests completed successfully for Python ${{ matrix.python-version }}" >> $GITHUB_STEP_SUMMARY
+        echo "🔍 Type checking passed with mypy" >> $GITHUB_STEP_SUMMARY
+        echo "🛡️ TYPE_CHECKING guards verified" >> $GITHUB_STEP_SUMMARY
         echo "🧪 All tests passed" >> $GITHUB_STEP_SUMMARY  
         echo "📦 Package verification successful" >> $GITHUB_STEP_SUMMARY
         echo "🔄 Next: Build and Package workflow will run automatically" >> $GITHUB_STEP_SUMMARY

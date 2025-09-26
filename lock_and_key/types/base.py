@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from .scan_results import ScanResult
+from lock_and_key.types.scan_results import ScanResult
 
 
 class CloudProviderBase(ABC):

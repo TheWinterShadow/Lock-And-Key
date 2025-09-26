@@ -45,3 +45,6 @@ reports/
 
 # Hatch
 .hatch/
+
+# Type checking reports
+mypy-report/

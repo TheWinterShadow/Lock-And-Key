@@ -1,10 +1,16 @@
 """AWS IAM policy scanner."""
 
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any, Dict, List
 
 from botocore.exceptions import ClientError
-from mypy_boto3_iam import IAMClient
-from mypy_boto3_iam.type_defs import PolicyTypeDef
+
+if TYPE_CHECKING:
+    from mypy_boto3_iam import IAMClient
+    from mypy_boto3_iam.type_defs import PolicyTypeDef
+else:
+    # Runtime fallback for when type stubs are not installed
+    IAMClient = Any
+    PolicyTypeDef = Dict[str, Any]
 
 from lock_and_key.providers.aws.resources.base import AWSServiceBase
 from lock_and_key.providers.aws.resources.iam_policy_analyzer import IAMPolicyAnalyzer
