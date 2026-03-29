@@ -33,13 +33,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Hatch
-        run: pip install hatch
+      - name: Install Documentation Dependencies
+        run: |
+          pip install zensical mkdocstrings[python] mkdocs-material
 
       - name: Build Documentation
-        run: |
-          hatch run docs-clean || true
-          hatch run zensical build
+        run: zensical build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
