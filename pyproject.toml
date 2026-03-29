@@ -78,9 +78,7 @@ dev = [
 
 # Documentation dependencies
 docs = [
-  "sphinx>=5.0.0",
-  "furo>=2023.0.0",
-  "myst-parser>=2.0.0",
+  "zensical",
 ]
 
 # All optional dependencies combined
@@ -100,9 +98,7 @@ all = [
   "pytest>=7.0.0",
   "pytest-cov>=4.0.0",
   "bandit>=1.7.0",
-  "sphinx>=5.0.0",
-  "furo>=2.0.0", 
-  "myst-parser>=2.0.0",
+  "zensical",
 ]
 
 # ==============================================================================
@@ -163,9 +159,7 @@ dependencies = [
   "pydantic",
   "rich",
   # Documentation
-  "sphinx",
-  "furo",
-  "myst-parser", 
+  "zensical", 
   # Type stubs for better IDE support and mypy
   "boto3-stubs",
   "mypy-boto3-dynamodb",
@@ -195,9 +189,9 @@ typecheck = "mypy lock_and_key"
 typecheck-strict = "mypy --strict lock_and_key"
 typecheck-report = "mypy --html-report mypy-report lock_and_key"
 # Documentation scripts  
-docs = "sphinx-build -b html docs/source docs/build"
-docs-clean = "sphinx-build -b html -E docs/source docs/build"
-docs-serve = "python -m http.server 8000 --directory docs/build"
+docs = "zensical build"
+docs-clean = "rm -rf site"
+docs-serve = "zensical serve"
 
 [tool.hatch.envs.hatch-test]
 dependencies = [
@@ -231,9 +225,9 @@ template = "hatch-test"
 # Application scripts
 scan = "python -m lock_and_key.cli {args}"
 # Documentation scripts
-docs = "sphinx-build -b html docs/source docs/build"
-docs-clean = "sphinx-build -b html -E docs/source docs/build"
-docs-serve = "python -m http.server 8000 --directory docs/build"
+docs = "zensical build"
+docs-clean = "rm -rf site"
+docs-serve = "zensical serve"
 
 # Testing scripts
 test = "pytest {args:tests}"

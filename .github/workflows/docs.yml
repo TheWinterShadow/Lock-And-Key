@@ -2,9 +2,15 @@ name: Deploy Documentation
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'lock_and_key/**'
+      - 'zensical.toml'
+      - 'pyproject.toml'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,49 +19,36 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  build-docs:
-    name: 'Build Documentation'
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-        
-    - name: Install Hatch
-      run: pip install hatch
-      
-    - name: Build documentation
-      run: hatch run dev:docs
-      
-    - name: Workflow Summary
-      run: |
-        echo "✅ Documentation build completed successfully" >> $GITHUB_STEP_SUMMARY
-        echo "📚 Documentation will be deployed to GitHub Pages" >> $GITHUB_STEP_SUMMARY
-        echo "🔄 Next: CI Tests will run automatically" >> $GITHUB_STEP_SUMMARY
-      
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-      
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: 'docs/build'
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  deploy-docs:
-    name: 'Deploy Documentation to GitHub Pages'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build-docs
-    if: github.ref == 'refs/heads/main'
-    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Hatch
+        run: pip install hatch
+
+      - name: Build Documentation
+        run: |
+          hatch run docs-clean || true
+          hatch run zensical build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './site'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

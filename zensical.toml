@@ -1,0 +1,162 @@
+# Zensical configuration for Lock-And-Key docs.
+
+[project]
+site_name = "Lock-And-Key"
+site_url = "https://lock-and-key.thewintershadow.com"
+site_description = "Comprehensive cloud security scanner for IAM and resource-based policies"
+site_author = "TheWinterShadow"
+copyright = "Copyright &copy; 2026 TheWinterShadow &mdash; MIT License"
+docs_dir = "docs"
+site_dir = "site"
+
+repo_name = "TheWinterShadow/lock-and-key"
+repo_url = "https://github.com/TheWinterShadow/lock-and-key"
+edit_uri = "edit/main/docs/"
+
+nav = [
+  { "🏠 Home" = "index.md" },
+  { "🏗️ Architecture" = "architecture/index.md" },
+  { "📚 API Reference" = [
+    { "CLI" = "api/cli.md" },
+    { "Main" = "api/main.md" },
+    { "Core" = [
+      { "Scanner" = "api/core/scanner.md" },
+      { "UI" = "api/core/ui.md" }
+    ]},
+    { "Config" = [
+      { "Settings" = "api/config/settings.md" }
+    ]},
+    { "Providers" = [
+      { "AWS" = [
+        { "Provider" = "api/providers/aws/aws_provider.md" },
+        { "Policy Collector" = "api/providers/aws/aws_policy_collector.md" },
+        { "IAM" = "api/providers/aws/resources/iam.md" },
+        { "IAM Policy Analyzer" = "api/providers/aws/resources/iam_policy_analyzer.md" },
+        { "Base" = "api/providers/aws/resources/base.md" }
+      ]},
+      { "Azure" = "api/providers/azure.md" },
+      { "GCP" = "api/providers/gcp.md" }
+    ]},
+    { "Types" = [
+      { "Scan Results" = "api/types/scan_results.md" },
+      { "Credentials" = "api/types/credentials.md" },
+      { "Exceptions" = "api/types/exceptions.md" },
+      { "Base" = "api/types/base.md" }
+    ]}
+  ]}
+]
+
+# ── Markdown extensions ──────────────────────────────────────────────────────
+
+[project.markdown_extensions.abbr]
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.def_list]
+[project.markdown_extensions.footnotes]
+[project.markdown_extensions.md_in_html]
+
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.pymdownx.betterem]
+smart_enable = "all"
+
+[project.markdown_extensions.pymdownx.caret]
+[project.markdown_extensions.pymdownx.details]
+
+[project.markdown_extensions.pymdownx.emoji]
+emoji_generator = "zensical.extensions.emoji.to_svg"
+emoji_index     = "zensical.extensions.emoji.twemoji"
+
+[project.markdown_extensions.pymdownx.highlight]
+anchor_linenums     = true
+line_spans          = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+[project.markdown_extensions.pymdownx.keys]
+[project.markdown_extensions.pymdownx.mark]
+[project.markdown_extensions.pymdownx.smartsymbols]
+[project.markdown_extensions.pymdownx.snippets]
+
+[project.markdown_extensions.pymdownx.superfences]
+custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+[project.markdown_extensions.pymdownx.tasklist]
+custom_checkbox = true
+
+[project.markdown_extensions.pymdownx.tilde]
+
+# ── Plugins ──────────────────────────────────────────────────────────────────
+
+[project.plugins.search]
+[project.plugins.autorefs]
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["."]
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "google"
+show_source = false
+show_root_heading = true
+show_signature_annotations = true
+show_if_no_docstring = true
+members_order = "source"
+show_bases = false
+
+# ── Theme ────────────────────────────────────────────────────────────────────
+
+[project.theme]
+name = "material"
+features = [
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.instant.progress",
+  "navigation.tracking",
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.sections",
+  "navigation.path",
+  "navigation.indexes",
+  "navigation.top",
+  "navigation.footer",
+  "search.highlight",
+  "search.share",
+  "search.suggest",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.tabs.link",
+  "toc.follow",
+]
+
+[project.theme.icon]
+logo = "fontawesome/solid/key"
+repo = "fontawesome/brands/github"
+edit = "lucide/pencil"
+view = "lucide/eye"
+
+[[project.theme.palette]]
+media       = "(prefers-color-scheme: light)"
+scheme      = "default"
+primary     = "blue"
+accent      = "amber"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media       = "(prefers-color-scheme: dark)"
+scheme      = "slate"
+primary     = "blue"
+accent      = "amber"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/TheWinterShadow/lock-and-key"
+name = "GitHub"
